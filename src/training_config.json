@@ -13,7 +13,7 @@
         "split_ratio": 0.8
         },
     "PATHS":{
-        "dataset_path": "../data_02_01_2023/Reco_strk_elect",
+        "dataset_path": "/home/agyurjin/infn/infn_nn/data_02_01_2023/Reco_strk_elect",
         "keywords_path": "keyword.json",
         "output_path": "/home/agyurjin/infn/infn_nn/03_03_2023_strk_model"
         }

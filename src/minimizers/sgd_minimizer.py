@@ -1,4 +1,5 @@
 '''
+SGD minimizer module
 '''
 import torch
 import numpy as np
@@ -7,11 +8,29 @@ from .base_minimizer import BaseMinimizer
 
 class SGDMinimizer(BaseMinimizer):
     '''
+    SGD minimizer algorithm
     '''
     def __init__(self, model):
+        '''
+        Init function
+
+        Parameters:
+            model (Predictor): Loaded model for prediction
+        '''
         super().__init__(model)
 
     def minimize(self, in_space, **kwargs):
+        '''
+        Minima finding algorithm
+
+        Parameters:
+            in_space (dict): Input space information
+            **kwargs (dict): Useful information
+
+        Return:
+            min_point (torch.tensor): Calculated minima
+            min_error (np.array): Calculated error from convergence
+        '''
         start_points = self.get_start_points(in_space, kwargs['number_of_samples'])
 
         positions = None
@@ -57,6 +76,16 @@ class SGDMinimizer(BaseMinimizer):
         return x, positions
 
     def _grad_calc(self, point, **kwargs):
+        '''
+        Gradient calculation method at point
+
+        Parameters:
+            point (np.array): Gradient calculation point
+            **kwargs (dict): Useful information
+
+        Return:
+            grad (list): Gradient at provieded point
+        '''
         grad = torch.zeros_like(point)
         for i in range(point.size()[0]):
             point_step = point.clone()

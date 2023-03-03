@@ -26,8 +26,6 @@ def main():
 
     model = Predictor(str(model_config_path))
     model.load_model(model_path)
-    
-
 
     keywords = json.load(open(minima_configs['PATHS']['keywords_path']))
     in_space, out_space = create_workspace(keywords, precisions = minima_configs['MINIMA']['precisions'])
@@ -45,21 +43,7 @@ def main():
     x2 = np.array(min_point) + np.array([0,pos_error[1]])
     points = [min_point, x1, x2]
     chi2 = do_prediction(model, points)
-    print(chi2.sum(axis=1))
-    """
-    positions = None
-#    min_point, min_error = None, None
 
-    in_dims = model_configs['net_structure']['input_layer']
-    out_dims = model_configs['net_structure']['output_layer']
-    print(model_configs['net_structure'])
-    z_dims, theta = create_grid(in_dims)
-
-    print(in_dims)
-    chi2 = do_predictions(model, in_dims, out_dims, z_dims, theta)
-
-    create_plots(output_dir, file_name, chi2, z_dims, theta, min_point, min_error, positions)
-    """
 
 if __name__ == '__main__':
     main()

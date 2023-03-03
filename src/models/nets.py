@@ -1,9 +1,7 @@
 '''
 Simple net for testing
 '''
-import torch
 from torch import nn
-
 
 class fcn(nn.Module):
     '''
@@ -17,17 +15,6 @@ class fcn(nn.Module):
             params (dict): Parameters to create network
         '''
         super(fcn, self).__init__()
-        """
-        self.net = nn.Sequential(
-                nn.Linear(params['input_layer'], params['hidden_layer1']),
-                nn.Sigmoid(),
-                nn.Linear(params['hidden_layer1'], params['hidden_layer2']),
-                nn.Sigmoid(),
-                nn.Linear(params['hidden_layer2'], params['hidden_layer1']),
-                nn.Sigmoid(),
-                nn.Linear(params['hidden_layer3'], params['output_layer']),
-                )
-        """
         modules = [nn.Linear(params['input_layer'], params['hidden_layer_neurons'][0])]
         for i in range(len(params['hidden_layer_neurons'])-1):
             modules.append(nn.Sigmoid())

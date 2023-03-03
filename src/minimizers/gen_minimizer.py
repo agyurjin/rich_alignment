@@ -1,4 +1,5 @@
 '''
+Genetic algorithm module
 '''
 import torch
 import numpy as np
@@ -7,11 +8,29 @@ from .base_minimizer import BaseMinimizer
 
 class GenMinimizer(BaseMinimizer):
     '''
+    Genetic Algorithm minimizer
     '''
     def __init__(self, model):
+        '''
+        Init function
+
+        Parameters:
+            model (Predictor): Loaded model for predictions
+        '''
         super().__init__(model)
 
     def minimize(self, in_space, **kwargs):
+        '''
+        Minima finding algorithm
+
+        Parameters:
+            in_space (dict): Input space information
+            **kwargs (dict): Useful information
+
+        Return:
+            min_point (torch.tensor): Calculated minima
+            min_error (np.array): Calculated error (zeros only cannot calculate convergence)
+        '''
         points = self.get_start_points(in_space, kwargs['number_of_samples'])
         for _ in tqdm(range(kwargs['iters'])):
             fitness = self._get_fitness(points)
@@ -27,10 +46,21 @@ class GenMinimizer(BaseMinimizer):
                 break
             points = new_points
 
-        return new_points[0], np.zeros_like(new_points[0])
+        min_point = new_points[0]
+        min_error = np.zeros_like(new_points[0])
+        return min_point, min_error
 
     def _generat_points(self, points, **kwargs):
-        # crossover step
+        '''
+        Generate new points
+
+        Parameters:
+            points (np.array): Generated points
+            **kwargs (dict): Useful information
+
+        Return:
+            crosses (np.array): Crossed and mutated points
+        '''
         crosses = []
         while len(crosses) < kwargs['number_of_samples']:
             rands = points[np.random.randint(0,len(points),2)]
@@ -38,7 +68,6 @@ class GenMinimizer(BaseMinimizer):
             crosses.append(np.append(rands[0, :len(rands[0])//2], rands[1, len(rands[1])//2:]))
             crosses.append(np.append(rands[1, :len(rands[1])//2], rands[0, len(rands[0])//2:]))
 
-        # mutation step
         def mut_coef():
             yield 2*(np.random.rand()-0.5)
 
@@ -49,9 +78,18 @@ class GenMinimizer(BaseMinimizer):
         return np.array(crosses)
 
     def _get_fitness(self, points):
+        '''
+        Get fitness value for points
+
+        Parameters:
+            points (np.array): Selected points
+
+        Return:
+            fitness (list): Fitness of each point
+        '''
         fitness = []
         with torch.no_grad():
             for point in points:
                 x = torch.tensor(point, dtype=torch.float)
                 fitness.append(float(self.model.predict(x).mean()))
-        return fitness    
+        return fitness

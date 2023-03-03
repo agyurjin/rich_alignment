@@ -55,6 +55,17 @@ def do_prediction(model, points):
     return np.array(chi2)
 
 def create_workspace(keywords, precisions):
+    '''
+    Use keyword.json and precisions to generate input space and output space
+
+    Parameters:
+        keywords (dict): Loaded keyword.json file
+        precisions (dict): Precisions for each feature
+
+    Return:
+        in_space (dict): Input features information
+        out_space (dict): Output features information
+    '''
     in_space = {'space': [], 'names': [], 'precisions': []}
     out_space = {'names': []}
 
@@ -80,6 +91,14 @@ def create_workspace(keywords, precisions):
     return in_space, out_space
 
 def get_keyword_names(keywords):
+    '''
+    Parameters:
+        keywords (dict): Loaded keyword.json file
+
+    Return:
+        in_kw_names (list): Input keywords names
+        out_kw_names (list): Output keywords names
+    '''
     in_kw_names = []
     out_kw_names = []
 

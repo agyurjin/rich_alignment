@@ -16,7 +16,10 @@ def create_plots(Y, X, out_path, kw_names=None, mins=None, min_error=None, pos_e
         out_path (str): Output file path
         kw_names (list): All input keywrods names that exists is True
         mins (np.array): Calculated minima point for the model
-        min_label (str): Label on histogram
+        min_error (np.array): Error calculation from convergence
+        pos_error (list): Positive error from MINUIT error calculation
+        neg_error (list): Negative error from MINUIT error calculation
+
     '''
     in_kw_names = kw_names['in_kw_names']
     out_kw_names = kw_names['out_kw_names']
@@ -32,7 +35,7 @@ def create_plots(Y, X, out_path, kw_names=None, mins=None, min_error=None, pos_e
             fn = out_path + ')'
         _plot_single(y, X, label, fn, mins, min_error, pos_error, neg_error)
     projection_x(y,X)
-        
+
 def _plot_single(chi2, points, labels, fn, mins, min_error, pos_error, neg_error):
     '''
     Create single plot
@@ -43,7 +46,9 @@ def _plot_single(chi2, points, labels, fn, mins, min_error, pos_error, neg_error
         labels (str): Name and axis titles for the plot
         fn (str): Output file path
         mins (np.array): Calculated minima point for the model
-        min_label (str): Label on histogram
+        min_error (np.array): Error calculation from convergence
+        pos_error (list): Positive error from MINUIT error calculation
+        neg_error (list): Negative error from MINUIT error calculation
 
     '''
     canv = ROOT.TCanvas('canv', 'canv', 800, 600)
@@ -57,7 +62,7 @@ def _plot_single(chi2, points, labels, fn, mins, min_error, pos_error, neg_error
         xidx = int((point[0] - min(axis_x))/xbin + xbin/2)+1
         yidx = int((point[1] - min(axis_y))/ybin + ybin/2)+1
         hist.SetBinContent(xidx, yidx, c2)
-    hist.SetTitleOffset(1.5,"Y");
+    hist.SetTitleOffset(1.5,"Y")
     hist.SetTitle(labels)
     hist.Draw('colz')
 

@@ -5,25 +5,72 @@ import torch
 import numpy as np
 
 class BaseMinimizer:
+    '''
+    Base minimizer class
+    '''
     def __init__(self, model):
+        '''
+        Init function
+
+        Parameters:
+            model (Predictor): Loaded model for prediction
+        '''
         self.model = model
+        self.precisions = None
 
     def minimizer(self, in_space, **kwargs):
-        pass
+        '''
+        Minima finding algorithm
+
+        Parameters:
+            in_space (dict): Input space information
+            **kwargs (dict): Useful information
+        '''
 
     def set_precisions(self, precisions):
+        '''
+        Set precisions for each feature
+
+        Parameters:
+            precisions (torch.tensor): All features precisions
+        '''
         self.precisions = precisions
 
     def get_start_points(self, in_space, nums):
+        '''
+        Generate initial points in the input space
+
+        Parameters:
+            in_space (dict): Input space information
+            nums (int): Number of inital points
+
+        Return:
+            points (np.array): Initial points
+        '''
         points = []
-        for i in range(nums):
+        for _ in range(nums):
             point = []
             for val_min, val_max, _  in in_space['space']:
                 point.append((val_max - val_min)*np.random.random() + val_min)
             points.append(point)
-        return np.array(points)
+        points = np.array(points)
+        return points
 
     def min_error_calc(self, point, sigma, up, iters, step, limit):
+        '''
+        MINUIT error calculation algorithm
+
+        Parameters:
+            point (torch.tensor):
+            sigma (UNKNOWN): TO BE IMPLEMENTED
+            up (float): Error calculation value
+            iters (int): Number of iterations for fine calculation
+            step (float): Size to find error range
+            limit (float): Max error size point relative
+
+        Return:
+            errs (list): Calculated errors for the features
+        '''
         errs = []
         point = torch.tensor(point, dtype=torch.float)
         y0 = self.model.predict(point).sum()

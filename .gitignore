@@ -1,0 +1,4 @@
+/src/__pycache__/*
+/src/readers/__pycache__/*
+/src/models/__pycache__/*
+/test/__pycache/*

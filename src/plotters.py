@@ -27,7 +27,7 @@ def create_plots(Y, X, out_path, kw_names=None, mins=None, min_error=None, pos_e
     for kw_name in out_kw_names:
         labels.append('{};{};{}'.format(kw_name, *in_kw_names))
     for i, label in enumerate(labels):
-        y = Y.sum(axis=1) if i == 0 else Y[:, i-1]
+        y = Y.mean(axis=1) if i == 0 else Y[:, i-1]
         fn = out_path
         if i == 0:
             fn = out_path + '('
@@ -49,7 +49,6 @@ def _plot_single(chi2, points, labels, fn, mins, min_error, pos_error, neg_error
         min_error (np.array): Error calculation from convergence
         pos_error (list): Positive error from MINUIT error calculation
         neg_error (list): Negative error from MINUIT error calculation
-
     '''
     canv = ROOT.TCanvas('canv', 'canv', 800, 600)
 

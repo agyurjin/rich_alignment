@@ -64,7 +64,7 @@ class GenMinimizer(BaseMinimizer):
         crosses = []
         while len(crosses) < kwargs['number_of_samples']:
             rands = points[np.random.randint(0,len(points),2)]
-            crosses.append(rands.mean(axis=1))
+            crosses.append(rands.mean(axis=0))
             crosses.append(np.append(rands[0, :len(rands[0])//2], rands[1, len(rands[1])//2:]))
             crosses.append(np.append(rands[1, :len(rands[1])//2], rands[0, len(rands[0])//2:]))
 

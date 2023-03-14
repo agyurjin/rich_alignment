@@ -78,9 +78,10 @@ class NNModel(BaseModel):
                     best_model = self.model
                     best_loss = val_loss
 
-                print('Epoch {}/{}'.format(i+1, self.epochs))
-                print('train loss: {}'.format(running_loss/1000))
-                print('val loss: {}'.format(val_loss/len(y_val)))
+                print('*'*20)
+                print('[TRAINING] Epoch {}/{}'.format(i+1, self.epochs))
+                print('[TRAINING] train loss: {:.5}'.format(running_loss/1000))
+                print('[TRAINING] val loss: {:.5}'.format(val_loss/len(y_val)))
                 print('*'*20)
                 running_loss = 0
 

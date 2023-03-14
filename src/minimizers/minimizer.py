@@ -64,12 +64,12 @@ class Minimizer:
         header = '*'*5 + ' RESULTS ' + '*'*5
         print(header)
         print('-'*len(header))
-        print('CONVERGENCE ERROR')
+        print('STATISTICAL ERROR')
         for i in range(len(min_point)):
-            print(f'{min_point[i]} +/- {min_error[i]}')
+            print(f'{min_point[i]:.5} +/- {min_error[i]:.5}')
 
         print('-'*len(header))
         print('MINUIT ERROR')
         for i in range(len(min_point)):
-            print(f'{min_point[i]} + {pos_error[i]} - {neg_error[i]}')
+            print(f'{min_point[i]:.5} + {pos_error[i]:.5} - {neg_error[i]:.5}')
         print('-'*len(header))

@@ -1,5 +1,8 @@
 /src/__pycache__/*
+/src/*.pyc
+/src/file_handler/__pycache__/*
+/src/file_handler/*.pyc
 /src/readers/__pycache__/*
 /src/models/__pycache__/*
 /src/minimizers/__pycache__/*
-/test/__pycache/*
+/test/__pycache__/*

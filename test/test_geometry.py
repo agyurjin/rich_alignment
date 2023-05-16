@@ -1,10 +1,12 @@
-from src.file_handler.data_parser import DataParser
 from tempfile import TemporaryDirectory
 from pathlib import Path
 
+from src.file_handler.data_parser import DataParser
+
 def test_geometry_v1_reader():
     dp = DataParser()
-    geometry_data = dp.read_file('test/data/RichModGeometry_v1.dat')
+    data_path = Path('test')/'data'/'RichModGeometry_v1.dat'
+    geometry_data = dp.read_file(data_path)
 
     assert geometry_data['aerogel_b1_x'] == 2.1 
     assert geometry_data['aerogel_b1_theta_y'] == -0.003 
@@ -32,7 +34,8 @@ def test_geometry_v1_reader():
 
 def test_geometry_v2_reader():
     dp = DataParser()
-    geometry_data = dp.read_file('test/data/RichModGeometry_v2.dat')
+    data_path = Path('test')/'data'/'RichModGeometry_v2.dat'
+    geometry_data = dp.read_file(data_path)
     
     assert geometry_data['aerogel_b1_x'] == 1.8 
     assert geometry_data['aerogel_b1_theta_y'] == -0.003 
@@ -78,10 +81,11 @@ def test_geometry_v1_writer():
             'planar_mirror_r_theta_x': 2.3
         }
         dp = DataParser()
-        dp.create_file(str(out_path), 'test/data/RichModGeometry_v1.dat', evt_dict)
+        data_path = Path('test') /'data'/'RichModGeometry_v1.dat'
+        dp.create_file(out_path, data_path, evt_dict)
         
-        data_old = dp.read_file('test/data/RichModGeometry_v1.dat')
-        data_new = dp.read_file(str(out_path))
+        data_old = dp.read_file(data_path)
+        data_new = dp.read_file(out_path)
         for key,value in evt_dict.items():
             assert data_new[key] == value
             assert data_new[key] != data_old[key]
@@ -104,11 +108,12 @@ def test_geometry_v2_writer():
             'spherical_mirror_s5c_z': 2.0
         }
         dp = DataParser()
-        dp.create_file(str(out_path), 'test/data/RichModGeometry_v2.dat', evt_dict)
+        data_path = Path('test') / 'data'/'RichModGeometry_v2.dat'
+        dp.create_file(out_path, data_path, evt_dict)
 
 
-        data_old = dp.read_file('test/data/RichModGeometry_v2.dat')
-        data_new = dp.read_file(str(out_path))
+        data_old = dp.read_file(data_path)
+        data_new = dp.read_file(out_path)
         for key,value in evt_dict.items():
             assert data_new[key] == value
             assert data_new[key] != data_old[key]

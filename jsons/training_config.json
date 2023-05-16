@@ -1,0 +1,32 @@
+{
+    "META":{
+        "keywords_name": "keywords.json",
+        "geometry_file_name": "RichModGeometry.dat",
+        "optical_file_name": "RichModOptical.dat",
+        "aerogel_neg_part_file_name": "RichReco_FastMC.root_hist.root_hm_Aerogel.out",
+        "aerogel_pos_part_file_name": "RichReco_FastMC.root_hist.root_hp_Aerogel.out",
+        "topology_neg_part_file_names":[],
+        "topology_pos_part_file_names":[]
+    },
+    "DATASETS":{
+        "pos_part_dataset_path": "/home/agyurjin/infn/infn_nn/data_rtrk_p_4d",
+        "neg_part_dataset_path": "/home/agyurjin/infn/infn_nn/data_rtrk_e_4d",
+        "neg_pos_mixing": "average",
+        "charge": "negative"
+    },
+    "MODEL":{
+        "type": "nn",
+        "hidden_layer_neurons": [20,100,20]
+        },
+    "TRAINING":{
+        "epochs": 10000,
+        "optimizer":{
+            "lr": 5e-3,
+            "momentum": 0.9
+            },
+        "norm": true,
+        "split_ratio": 0.8,
+        "batch_size": 240,
+        "shuffle": true
+        }
+}

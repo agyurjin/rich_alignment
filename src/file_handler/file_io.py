@@ -2,17 +2,19 @@
 Abstract class for files IO
 '''
 from abc import ABC
+from pathlib import Path
 
 class FileIO(ABC):
     '''
     Abstract class
     '''
-    def __init__(self):
+    def __init__(self, name=None):
         '''
         Init method
         '''
+        self.name = name
 
-    def read_file(self, input_path: str) -> dict:
+    def read_file(self, input_path: Path) -> dict:
         '''
         Read file and parse it to the dict
 
@@ -24,7 +26,7 @@ class FileIO(ABC):
         '''
         raise NotImplementedError()
 
-    def create_file(self, output_path: str, temp_path: str, evt_data: dict) -> None:
+    def create_file(self, output_path: Path, temp_path: Path, evt_data: dict) -> None:
         '''
         Read template file and create similar file with new parameters
 

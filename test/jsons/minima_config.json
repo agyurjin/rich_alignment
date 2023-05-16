@@ -4,10 +4,10 @@
         "momentum": 0.9,
         "iters": 100,
         "precisions": {"distance": 1e-1, "angle": 1e-4, "ref_index": 1e-4},
-        "number_of_samples": 100 
+        "number_of_samples": 100
         },
     "PATHS":{
-        "model_path": "/home/agyurjin/infn/infn_nn/03_03_2023_strk_model",
+        "model_path": "/home/agyurjin/infn/infn_nn/model_p_5in",
         "keywords_path": "keyword.json"
         },
     "PLOTTING":{

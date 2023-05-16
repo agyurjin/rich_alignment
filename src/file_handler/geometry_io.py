@@ -2,6 +2,7 @@
 Geometry file IO
 '''
 #from __future__ import absolute_import
+from pathlib import Path
 
 from .file_io import FileIO
 from .reader_structs import (GEO_FILE_LINES_V1, GEO_FILE_LINES_V2,
@@ -11,15 +12,15 @@ class GeometryIO(FileIO):
     '''
     Geomtery file class
     '''
-    def __init__(self):
+    def __init__(self, name=None):
         '''
         Init method
         '''
-        super().__init__()
+        super().__init__(name)
         self.geo_params = GEO_FILE_EUCLIDE_PARAMS
         self.angle_params = GEO_FILE_ANGLE_PARAMS
 
-    def read_file(self, input_path: str) -> dict:
+    def read_file(self, input_path: Path) -> dict:
         '''
         Read data from the simulation output file
 
@@ -42,7 +43,7 @@ class GeometryIO(FileIO):
                 file_data[f'{self.lines[lid]}_{params[j]}'] = float(value)
         return file_data
 
-    def create_file(self, output_path: str, temp_path: str, evt_data: dict) -> None:
+    def create_file(self, output_path: Path, temp_path: Path, evt_data: dict) -> None:
         '''
         Read geometry template file eand create similar geometry file with new parameters
 

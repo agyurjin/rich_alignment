@@ -15,16 +15,15 @@ class fcn(nn.Module):
             params (dict): Parameters to create network
         '''
         super(fcn, self).__init__()
-        modules = [nn.Linear(params['input_layer'], params['hidden_layer_neurons'][0])]
-        for i in range(len(params['hidden_layer_neurons'])-1):
+        layers = [params['input_layer']] + params['hidden_layer_neurons']
+        modules = []
+        for i in range(len(layers)-1):
+            modules.append(nn.Linear(layers[i], layers[i+1]))
             modules.append(nn.Sigmoid())
-            modules.append(nn.Linear(params['hidden_layer_neurons'][i], params['hidden_layer_neurons'][i+1]))
-        last_hidden_id = len(params['hidden_layer_neurons']) - 1
-        modules.append(nn.Sigmoid())
-        modules.append(nn.Linear(params['hidden_layer_neurons'][last_hidden_id], params['output_layer']))
+#            modules.append(nn.BatchNorm1d(layers[i+1]))
+        modules.append(nn.Linear(layers[len(layers) - 1], params['output_layer']))
 
         self.net = nn.Sequential(*modules)
-
 
 
     def forward(self,x):

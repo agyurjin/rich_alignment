@@ -31,31 +31,39 @@ class GenMinimizer(BaseMinimizer):
             min_point (torch.tensor): Calculated minima
             min_error (np.array): Calculated error (zeros only cannot calculate convergence)
         '''
-        points = self.get_start_points(in_space, kwargs['number_of_samples'])
-        for _ in tqdm(range(kwargs['iters'])):
-            fitness = self._get_fitness(points)
+        mins = []
+        errors = []
+        for i in tqdm(range(kwargs['iters'])):
+            points = self.get_start_points(in_space, kwargs['number_of_samples'])
+            for _ in range(100):
+                fitness = self._get_fitness(points)
 
-            best_points = points[np.argsort(fitness)][:int(0.2*len(points))+1]
+                best_points = points[np.argsort(fitness)][:int(0.2*len(points))+1]
 
-            crosses = self._generat_points(best_points, **kwargs)
-            cross_fitness = self._get_fitness(crosses)
-            all_fitnesses = fitness + cross_fitness
-            points = np.vstack((points, crosses))
-            new_points = points[np.argsort(all_fitnesses)][:kwargs['number_of_samples']]
-            if np.all(points == new_points):
-                break
-            points = new_points
+                crosses = self._generat_points(best_points, in_space, **kwargs)
+                cross_fitness = self._get_fitness(crosses)
+                all_fitnesses = fitness + cross_fitness
+                if np.sqrt((np.array(all_fitnesses)).mean()) < 0.1:
+                    break
+                points = np.vstack((points, crosses))
+                new_points = points[np.argsort(all_fitnesses)][:kwargs['number_of_samples']]
+                points = new_points
 
-        min_point = new_points[0]
-        min_error = np.zeros_like(new_points[0])
+            mins.append(new_points[0])
+        
+        mins = np.array(mins)
+        min_point = mins.mean(axis=0)
+        min_error = mins.std(axis=0)
+        
         return min_point, min_error
 
-    def _generat_points(self, points, **kwargs):
+    def _generat_points(self, points, in_space, **kwargs):
         '''
         Generate new points
 
         Parameters:
             points (np.array): Generated points
+            in_space : heto
             **kwargs (dict): Useful information
 
         Return:
@@ -73,8 +81,12 @@ class GenMinimizer(BaseMinimizer):
 
         for cross in crosses:
             idx = np.random.randint(len(cross))
-            cross[idx] +=  (5*next(mut_coef())*self.precisions[idx])
-
+            temp_v = (5*next(mut_coef())*self.precisions[idx])
+            if temp_v > 0:
+                cross[idx] = min(cross[idx]+temp_v, in_space['space'][idx][1])
+            else:
+                cross[idx] = max(cross[idx]+temp_v, in_space['space'][idx][0])
+#            cross[idx] +=  (5*next(mut_coef())*self.precisions[idx]) 
         return np.array(crosses)
 
     def _get_fitness(self, points):

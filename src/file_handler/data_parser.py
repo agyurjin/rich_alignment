@@ -1,8 +1,6 @@
 '''
 Main file to read and write data files
 '''
-#from __future__ import absolute_import
-
 from pathlib import Path
 
 from .geometry_io import GeometryIO
@@ -43,7 +41,7 @@ class DataParser:
         elif file_suffix == '.out':
             for name in TOP_FILE_NAMES:
                 if name in file_name:
-                    self.strategy = TopologyIO()
+                    self.strategy = TopologyIO(name)
                     break
         else:
             err_str = '"'+'","'.join(TOP_FILE_NAMES)+'"'
@@ -53,7 +51,7 @@ class DataParser:
 3. Aerogel output file name should contain "Aerogel" word and have ".out" extension\n \
 4. Any topology file name should contain {err_str} word and have ".out" extension')
 
-    def read_file(self, file_path: str) -> dict:
+    def read_file(self, file_path: Path) -> dict:
         '''
         Use the file name to define strategy and convert file to the dictinory
 
@@ -63,11 +61,11 @@ class DataParser:
         Return:
             data_dict: Converted data dictinory
         '''
-        self._set_strategy(Path(file_path))
+        self._set_strategy(file_path)
         data_dict = self.strategy.read_file(file_path)
         return data_dict
 
-    def create_file(self, output_path: str, temp_path: str, evt_dict: dict) -> None:
+    def create_file(self, output_path: Path, temp_path: Path, evt_dict: dict) -> None:
         '''
         Read template file and create similar file with new parameters
         with the defined strategy
@@ -80,5 +78,5 @@ class DataParser:
         Return:
             None
         '''
-        self._set_strategy(Path(temp_path))
+        self._set_strategy(temp_path)
         self.strategy.create_file(output_path, temp_path, evt_dict)

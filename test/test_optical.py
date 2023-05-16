@@ -6,7 +6,8 @@ from src.file_handler.data_parser import DataParser
 
 def test_optical_reader():
     dp = DataParser()
-    optical_data = dp.read_file('test/data/RichModOptical.dat')
+    data_path = Path('test')/'data'/'RichModOptical.dat'
+    optical_data = dp.read_file(data_path)
 
     assert optical_data['aerogel_b1_ref_index'] == 1.05
     assert optical_data['aerogel_b2_Npe'] == 12
@@ -36,10 +37,11 @@ def test_optical_writer():
         }
 
         dp = DataParser()
-        dp.create_file(str(out_path), 'test/data/RichModOptical.dat', evt_dict)
+        data_path = Path('test')/'data'/'RichModOptical.dat'
+        dp.create_file(out_path, data_path, evt_dict)
 
-        data_old = dp.read_file('test/data/RichModOptical.dat')
-        data_new = dp.read_file(str(out_path))
+        data_old = dp.read_file(data_path)
+        data_new = dp.read_file(out_path)
         for key,value in evt_dict.items():
             assert data_new[key] == value
             assert data_new[key] != data_old[key]

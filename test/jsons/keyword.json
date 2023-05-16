@@ -3,22 +3,32 @@
         "GEOMETRY":[
             {"aerogel_b2_z": {
                 "exists": true, 
-                "grid":[-5,10,76]
+                "grid":[-10,10,81]
+                }
+            },
+            {"aerogel_b2_theta_x": {
+                "exists": true, 
+                "grid": [-0.02,0.02,41]
                 }
             },
             {"aerogel_b2_theta_y": {
                 "exists": true, 
                 "grid": [-0.02,0.02,41]
                 }
+            },
+            {"aerogel_b2_theta_z": {
+                "exists": false, 
+                "grid": [-0.02,0.02,41]
+                }
             }
-            ],
+        ],
         "OPTICAL":[
             {"aerogel_b2_ref_index": {
-                "exists": false, 
-                "grid":[1.045,1.055,11]}
+                "exists": true, 
+                "grid":[1.045,1.055,21]}
             }
-            ]
-        },
+        ]
+    },
     "OUTPUT":{
         "AEROGEL":[
             {"aerogel_b2_dp_chi2": {"exists":true}},
@@ -27,6 +37,8 @@
             {"aerogel_b2_a3_chi2": {"exists":false}},
             {"aerogel_b2_s5c_b1_chi2": {"exists":true}},
             {"aerogel_b2_s5c_b2_chi2": {"exists":true}}
-            ]
-        }
+        ],
+        "TOPOLOGY":[
+        ]
+    }
 }

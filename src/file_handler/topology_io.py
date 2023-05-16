@@ -2,6 +2,7 @@
 Topology file IO
 '''
 #from __future__ import absolute_import
+from pathlib import Path
 
 from .file_io import FileIO
 from .reader_structs import TOP_FILE_PARAMS
@@ -10,14 +11,14 @@ class TopologyIO(FileIO):
     '''
     Topology file class
     '''
-    def __init__(self):
+    def __init__(self, name=None):
         '''
         Init method
         '''
-        super().__init__()
+        super().__init__(name)
         self.params = TOP_FILE_PARAMS
 
-    def read_file(self, input_path: str) -> dict:
+    def read_file(self, input_path: Path) -> dict:
         '''
         Read file and parse it to the dict
 
@@ -34,10 +35,10 @@ class TopologyIO(FileIO):
             layer_id = int(line_struc[0]) + 1
             tile_id = int(line_struc[1]) + 1
             for j, value in enumerate(line_struc[2:]):
-                file_data[f'aerogel_b{layer_id}_tile_{tile_id}_{self.params[j]}'] = float(value)
+                file_data[f'{self.name}_aerogel_b{layer_id}_tile_{tile_id}_{self.params[j]}'] = float(value)
         return file_data
 
-    def create_file(self, output_path: str, temp_path:str, evt_data: dict) -> None:
+    def create_file(self, output_path: Path, temp_path: Path, evt_data: dict) -> None:
         '''
         Read template file and create similar file with new parameters
 

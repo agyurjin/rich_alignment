@@ -17,7 +17,7 @@ class BaseModel(ABC):
         self.feature_size = None
 
     @abstractmethod
-    def train(self, x_train, y_train, x_val, y_val):
+    def train(self, data_loader, epochs, optimizer_data):
         '''
         Train model and keep best on validation set
 

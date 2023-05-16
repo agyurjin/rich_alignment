@@ -1,11 +1,12 @@
 #from __future__ import absolute_import
+from pathlib import Path
 
 from src.file_handler.data_parser import DataParser
-from pathlib import Path
 
 def test_aerogel_reader():
     dp = DataParser()
-    aerogel_data = dp.read_file('test/data/RichReco_FastMC.root_hist.root_hm_Aerogel.out')
+    data_path = Path('test') /'data'/'RichReco_FastMC.root_hist.root_hm_Aerogel.out'
+    aerogel_data = dp.read_file(data_path)
     
     assert aerogel_data['aerogel_b2_dp_chi2'] == 1.2583
     assert aerogel_data['aerogel_b2_a2l_chi2'] == 1.1658
@@ -33,6 +34,6 @@ def test_aerogel_reader():
 def test_aerogel_writer():
     dp = DataParser()
     try:
-        aerogel_data = dp.create_file('Aerogel.out', 'Aerogel.out', {})
+        aerogel_data = dp.create_file(Path('Aerogel.out'), Path('Aerogel.out'), {})
     except Exception as error:
         assert str(error) == 'Aerogel file creation method not implemented as it should be generated from simulations!'

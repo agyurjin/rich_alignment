@@ -19,9 +19,10 @@ class fcn(nn.Module):
         modules = []
         for i in range(len(layers)-1):
             modules.append(nn.Linear(layers[i], layers[i+1]))
+            #modules.append(nn.ReLU())
             modules.append(nn.Sigmoid())
 #            modules.append(nn.BatchNorm1d(layers[i+1]))
-        modules.append(nn.Linear(layers[len(layers) - 1], params['output_layer']))
+        modules.append(nn.Linear(layers[-1], params['output_layer']))
 
         self.net = nn.Sequential(*modules)
 

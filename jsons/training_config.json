@@ -9,19 +9,19 @@
         "topology_pos_part_file_names":[]
     },
     "DATASETS":{
-        "pos_part_dataset_path": "/home/agyurjin/infn/infn_nn/data_rtrk_p_4d",
-        "neg_part_dataset_path": "/home/agyurjin/infn/infn_nn/data_rtrk_e_4d",
-        "neg_pos_mixing": "average",
-        "charge": "negative"
+        "pos_part_dataset_path": "/home/agyurjin/infn/infn_nn/data_17_05/positive",
+        "neg_part_dataset_path": "/home/agyurjin/infn/infn_nn/data_17_05/negative",
+        "neg_pos_mixing": "free",
+        "charge": "mixed"
     },
     "MODEL":{
         "type": "nn",
         "hidden_layer_neurons": [20,100,20]
         },
     "TRAINING":{
-        "epochs": 10000,
+        "epochs": 100000,
         "optimizer":{
-            "lr": 5e-3,
+            "lr": 1e-2,
             "momentum": 0.9
             },
         "norm": true,

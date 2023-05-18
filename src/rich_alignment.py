@@ -24,7 +24,7 @@ class RICHAlignment():
         output_dir = Path(output_dir)
         output_dir.mkdir(exist_ok=True, parents=True) 
         
-        if train_meta_data['DATASETS']['neg_pos_mixing'] not in ('average', 'free', 'charage'):
+        if train_meta_data['DATASETS']['neg_pos_mixing'] not in ('average', 'free', 'charge'):
             print('ERROR: data mixing is wrong in json file!!!!!!!')
         if train_meta_data['DATASETS']['charge'] not in ('positive', 'negative', 'mixed'):
             print('ERROR: charge is wrong in json file!!!!!!!!!!!')

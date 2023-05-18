@@ -2,17 +2,8 @@
     "MINIMA":{
         "type": "genetic",
         "momentum": 0.9,
-        "iters": 10,
+        "iters": 100,
         "precisions": {"distance": 1e-1, "angle": 1e-4, "ref_index": 1e-4},
-        "number_of_samples": 10
-        },
-    "PATHS":{
-        "model_path": "/home/agyurjin/infn/infn_nn/model_p_5in",
-        "keywords_path": "keyword.json"
-        },
-    "PLOTTING":{
-        "draw_positions": false,
-        "draw_mins": false,
-        "draw_start_points": false
+        "number_of_samples": 100
         }
 }

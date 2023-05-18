@@ -32,9 +32,9 @@ class DataLoader():
         self.out_dim = len(self.keywords['aer']) + len(self.keywords['top'])
         if self.charge == 'mixed':
             if self.mixing == 'charge':
-                in_dim += 1
+                self.in_dim += 1
             elif self.mixing == 'free':
-                out_dim *= 2
+                self.out_dim *= 2
 
         neg_file_names = {
             'geo': metadata['geometry_file_name'],
@@ -116,7 +116,7 @@ class DataLoader():
                 c = torch.hstack((torch.zeros(N), torch.ones(N))).reshape((2*N,1))
                 x = torch.hstack((x,c))
                 y = torch.vstack((neg_y, pos_y))
-                self.mean.apppend(0)
-                self.std.append(1)
+ #               self.mean.apppend(0)
+ #               self.std.append(1)
 
         return x, y

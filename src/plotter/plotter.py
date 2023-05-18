@@ -29,7 +29,10 @@ class Plotter:
     def create_root_tree(self, output_path):
         root_file = ROOT.TFile.Open(str(output_path), 'RECREATE')
 
-        combs = list(combinations(list(range(len(self.min_point))), 2))
+        N = len(self.min_point)
+        if self.in_space['names'][-1] == 'charge':
+            N -= 1
+        combs = list(combinations(list(range(N)), 2))
         for comb in tqdm(combs):
             axis1 = self.in_space['space'][comb[0]]
             axis2 = self.in_space['space'][comb[1]]

@@ -39,11 +39,12 @@ class NNModel(BaseModel):
         running_loss = 0
         best_model = None
         best_loss = 1e10
-        verbose = 100
+        verbose = 1000
+        prev_val_loss = 1e10
 
         x_train, y_train = data_loader.get_trainset()
         x_val, y_val = data_loader.get_testset()
-
+        
         x_train_mean = x_train.mean(axis=0)
         y_train_mean = y_train.mean(axis=0)
         x_train_std = x_train.std(axis=0)
@@ -54,29 +55,24 @@ class NNModel(BaseModel):
         self.norm_params['y_mean'] = y_train_mean
         self.norm_params['y_std'] = y_train_std
 
-        x_train = (x_train - x_train_mean)/x_train_std
-        y_train = (y_train - y_train_mean)/y_train_std
-        
-        x_val = (x_val - x_train_mean)/x_train_std
-        y_val = (y_val - y_train_mean)/y_train_std
+        x_train = (x_train - x_train_mean)/(x_train_std+1e-5)
+        y_train = (y_train - y_train_mean)/(y_train_std+1e-5) 
+        x_val = (x_val - x_train_mean)/(x_train_std+1e-5)
+        y_val = (y_val - y_train_mean)/(y_train_std+1e-5)
         
         for i in range(epochs):
-            for x,y in zip(x_train, y_train): 
-                optimizer.zero_grad()
-                y_pred = self.model(x)
-                loss_v = loss_fn(y, y_pred)
-                loss_v.backward()
-                optimizer.step()
-                running_loss += float(loss_v)
-            
+            optimizer.zero_grad()
+            y_pred = self.model(x_train)
+            loss_v = loss_fn(y_pred, y_train)
+            loss_v.backward()
+            optimizer.step()
+            running_loss += float(loss_v)
+        
             if (i+1) % verbose == 0: 
                 with torch.no_grad():
-                    val_loss = 0
-                    for x, y in zip(x_val, y_val):
-                        y_pred = self.model(x)
-                        loss_v = loss_fn(y, y_pred)
-                        val_loss += float(loss_v)
-
+                    y_pred = self.model(x_val)
+                    loss_v = loss_fn(y_pred, y_val)
+                    val_loss = float(loss_v)
                 if val_loss < best_loss:
                     best_model = deepcopy(self.model)
                     best_loss = val_loss
@@ -86,8 +82,8 @@ class NNModel(BaseModel):
                 print(f'[TRAINING] train loss: {running_loss/verbose:.5f}')
                 print(f'[TRAINING] val loss: {val_loss:.5f}')
                 print('*'*20)
-                self.loss_hist['train_loss'].append(running_loss/verbose/len(x_train))
-                self.loss_hist['val_loss'].append(val_loss/len(x_val))
+                self.loss_hist['train_loss'].append(running_loss/verbose)
+                self.loss_hist['val_loss'].append(val_loss)
                 self.loss_hist['epochs'].append(i+1)
                 running_loss = 0
 
@@ -97,7 +93,8 @@ class NNModel(BaseModel):
 
     def predict(self, x):
         x = (x - self.norm_params['x_mean'])/self.norm_params['x_std']
-        y_pred = self.model(x)
+        with torch.no_grad():
+            y_pred = self.model(x)
         y_pred = y_pred * self.norm_params['y_std'] + self.norm_params['y_mean']
         return y_pred
 

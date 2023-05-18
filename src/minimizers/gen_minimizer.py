@@ -33,22 +33,24 @@ class GenMinimizer(BaseMinimizer):
         '''
         mins = []
         errors = []
+        prev_best_points = None
         for i in tqdm(range(kwargs['iters'])):
             points = self.get_start_points(in_space, kwargs['number_of_samples'])
             for _ in range(100):
                 fitness = self._get_fitness(points)
 
                 best_points = points[np.argsort(fitness)][:int(0.2*len(points))+1]
-
+                
+                if prev_best_points is not None:
+                    if ((prev_best_points - best_points)**2).mean() < 1e-4:
+                        break
+                prev_best_points = best_points
                 crosses = self._generat_points(best_points, in_space, **kwargs)
                 cross_fitness = self._get_fitness(crosses)
                 all_fitnesses = fitness + cross_fitness
-                if np.sqrt((np.array(all_fitnesses)).mean()) < 0.1:
-                    break
                 points = np.vstack((points, crosses))
                 new_points = points[np.argsort(all_fitnesses)][:kwargs['number_of_samples']]
                 points = new_points
-
             mins.append(new_points[0])
         
         mins = np.array(mins)
@@ -71,7 +73,7 @@ class GenMinimizer(BaseMinimizer):
         '''
         crosses = []
         while len(crosses) < kwargs['number_of_samples']:
-            rands = points[np.random.randint(0,len(points),2)]
+            rands = points[np.random.randint(0,len(points),len(points)//2)]
             crosses.append(rands.mean(axis=0))
             crosses.append(np.append(rands[0, :len(rands[0])//2], rands[1, len(rands[1])//2:]))
             crosses.append(np.append(rands[1, :len(rands[1])//2], rands[0, len(rands[0])//2:]))
@@ -86,7 +88,6 @@ class GenMinimizer(BaseMinimizer):
                 cross[idx] = min(cross[idx]+temp_v, in_space['space'][idx][1])
             else:
                 cross[idx] = max(cross[idx]+temp_v, in_space['space'][idx][0])
-#            cross[idx] +=  (5*next(mut_coef())*self.precisions[idx]) 
         return np.array(crosses)
 
     def _get_fitness(self, points):
@@ -99,9 +100,6 @@ class GenMinimizer(BaseMinimizer):
         Return:
             fitness (list): Fitness of each point
         '''
-        fitness = []
-        with torch.no_grad():
-            for point in points:
-                x = torch.tensor(point, dtype=torch.float)
-                fitness.append(float(self.model.predict(x).mean()))
+        points = torch.tensor(points, dtype=torch.float)
+        fitness = self.model.predict(points).sum(axis=1).tolist()
         return fitness

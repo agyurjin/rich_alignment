@@ -3,17 +3,17 @@
         "GEOMETRY":[
             {"aerogel_b2_z": {
                 "exists": true, 
-                "grid":[-10,10,21]
+                "grid":[-10,10,41]
                 }
             },
             {"aerogel_b2_theta_x": {
                 "exists": true, 
-                "grid": [-0.02,0.02,21]
+                "grid": [-0.02,0.02,41]
                 }
             },
             {"aerogel_b2_theta_y": {
                 "exists": true, 
-                "grid": [-0.02,0.02,21]
+                "grid": [-0.02,0.02,41]
                 }
             },
             {"aerogel_b2_theta_z": {

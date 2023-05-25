@@ -1,10 +1,14 @@
 '''
 Polygon model
 '''
+import numpy as np
+import torch
+import json
+
 from .base_model import BaseModel
 from sklearn.linear_model import LinearRegression
 
-
+#TODO: DOESN'T MATCH TO BASE CLASS
 class PolyModel(BaseModel):
     '''
     Polygon model
@@ -40,7 +44,7 @@ class PolyModel(BaseModel):
 
         self.model.fit(x_train, y_train)
 
-        y_val_pred = sel.model.predict(x_val)
+        y_val_pred = self.model.predict(x_val)
         mse_loss = torch.mean((y_val_pred - y_val)**2)
         print('val loss: {}'.format(mse_loss))
 

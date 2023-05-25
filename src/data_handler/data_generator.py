@@ -1,15 +1,30 @@
-
-import sys
-import numpy as np
-import json
-import ROOT
+'''
+Generate RICH geometry and optical alignment input files for RICH
+Fast Monte Carlo simulations.
+'''
 from array import array
 from pathlib import Path
+
+import numpy as np
+import ROOT
 
 from ..file_handler import DataParser
 
 class DataGenerator():
-    def __init__(self, input_dict: dict, temp_paths: dict) -> None: 
+    '''
+    Data generator class
+    '''
+    def __init__(self, input_dict: dict, temp_paths: dict) -> None:
+        '''
+        Init method
+
+        Parameters:
+            input_dict: Info about keywords for data generation
+            temp_paths: Paths to geometry and optical template files
+
+        Return:
+            None
+        '''
         self.data_parser = DataParser()
 
         self.geo_keywords = []
@@ -22,10 +37,10 @@ class DataGenerator():
                     if i == 0:
                         self.geo_keywords.append(key)
                     else:
-                        self.opt_keywords.append(key)        
+                        self.opt_keywords.append(key)
                     self.input_dict[key] = values['grid']
 
-        self.geo_temp_path, self.opt_temp_path = None, None    
+        self.geo_temp_path, self.opt_temp_path = None, None
         if 'geo' in temp_paths:
             self.geo_temp_path = temp_paths['geo']
         if 'opt' in temp_paths:
@@ -34,7 +49,13 @@ class DataGenerator():
         self._logs('geometry')
         self._logs('optical')
 
-    def _logs(self, file_type):
+    def _logs(self, file_type: str) -> None:
+        '''
+        Do some prints
+
+        Parameters:
+            file_type: Either 'geometry' or 'optical'
+        '''
         keywords, temp_path = None, None
         if file_type == 'geometry':
             keywords, temp_path = self.geo_keywords, self.geo_temp_path
@@ -50,8 +71,14 @@ class DataGenerator():
         else:
             print(f'ERROR: {file_type} template file is not provied!!!')
 
-
     def create(self, output_dir: Path, num_of_points: int) -> None:
+        '''
+        Create data points
+
+        Parameters:
+            output_dir: Directory to create data
+            num_of_points: Number of points to create
+        '''
         geo_dir = output_dir / 'geo'
         opt_dir = output_dir / 'opt'
         geo_dir.mkdir(exist_ok=True, parents=True)
@@ -80,8 +107,15 @@ class DataGenerator():
                 single_event[idx][0] = value
             tree.Fill()
         tree.Write()
-    
+        root_file.Close()
+
     def _generate_event(self) -> tuple:
+        '''
+        Single random event generator from keywords
+
+        Return:
+            (geo_event, opt_event): Geometry event, Optical event
+        '''
         geo_event = {}
         opt_event = {}
         for i, keywords in enumerate([self.geo_keywords, self.opt_keywords]):
@@ -94,8 +128,16 @@ class DataGenerator():
                     opt_event[keyword] = value
         return geo_event, opt_event
 
-    def _create_file(self, in_dir: Path, event: dict, idx: int):
-        file_path, temp_path = None, None 
+    def _create_file(self, in_dir: Path, event: dict, idx: int) -> None:
+        '''
+        Save event into file
+
+        Parameters:
+            in_dir: Path to the directory
+            event: Generated event
+            idx: ID of the event
+        '''
+        file_path, temp_path = None, None
         if in_dir.name =='geo':
             file_path = in_dir / f'{self.geo_temp_path.stem}_{idx}{self.geo_temp_path.suffix}'
             temp_path = self.geo_temp_path
@@ -104,4 +146,3 @@ class DataGenerator():
             temp_path = self.opt_temp_path
 
         self.data_parser.create_file(file_path, temp_path, event)
-        

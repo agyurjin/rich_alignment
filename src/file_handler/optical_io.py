@@ -29,7 +29,7 @@ class OpticalIO(FileIO):
         Return:
             file_data: Preprocessed data
         '''
-        file_raw_data = open(input_path).readlines()
+        file_raw_data = self.read_input_file(input_path)
         file_data = {}
         for i, line in enumerate(file_raw_data):
             if i % 2 == 0:
@@ -57,7 +57,7 @@ class OpticalIO(FileIO):
             temp_path: Template file path
             evt_data: Data to change in generated optical file
         '''
-        temp_data = open(temp_path).readlines()
+        temp_data = self.read_input_file(temp_path)
         self.lines = {v:k for k,v in self.lines.items()}
         self.params = {v:k for k,v in self.params.items()}
         for key, value in evt_data.items():
@@ -67,7 +67,7 @@ class OpticalIO(FileIO):
             line[param_num] = f'{value:.6}'
             temp_data[line_num] = ' '.join(line) + '\n'
 
-        with open(output_path,'w') as file_writer:
+        with open(output_path, 'w', encoding="utf8") as file_writer:
             file_writer.write(''.join(temp_data))
 
     def _kw_to_pos(self, keyword: str) -> tuple:

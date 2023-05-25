@@ -14,7 +14,7 @@ class fcn(nn.Module):
         Parameters:
             params (dict): Parameters to create network
         '''
-        super(fcn, self).__init__()
+        super().__init__()
         layers = [params['input_layer']] + params['hidden_layer_neurons']
         modules = []
         for i in range(len(layers)-1):

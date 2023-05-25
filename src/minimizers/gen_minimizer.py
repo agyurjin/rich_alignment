@@ -32,15 +32,14 @@ class GenMinimizer(BaseMinimizer):
             min_error (np.array): Calculated error (zeros only cannot calculate convergence)
         '''
         mins = []
-        errors = []
         prev_best_points = None
-        for i in tqdm(range(kwargs['iters'])):
+        for _ in tqdm(range(kwargs['iters'])):
             points = self.get_start_points(in_space, kwargs['number_of_samples'])
-            for _ in range(100):
+            for _ in range(1000):
                 fitness = self._get_fitness(points)
 
                 best_points = points[np.argsort(fitness)][:int(0.2*len(points))+1]
-                
+
                 if prev_best_points is not None:
                     if ((prev_best_points - best_points)**2).mean() < 1e-4:
                         break
@@ -52,11 +51,11 @@ class GenMinimizer(BaseMinimizer):
                 new_points = points[np.argsort(all_fitnesses)][:kwargs['number_of_samples']]
                 points = new_points
             mins.append(new_points[0])
-        
+
         mins = np.array(mins)
         min_point = mins.mean(axis=0)
         min_error = mins.std(axis=0)
-        
+
         return min_point, min_error
 
     def _generat_points(self, points, in_space, **kwargs):

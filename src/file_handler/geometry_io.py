@@ -19,6 +19,7 @@ class GeometryIO(FileIO):
         super().__init__(name)
         self.geo_params = GEO_FILE_EUCLIDE_PARAMS
         self.angle_params = GEO_FILE_ANGLE_PARAMS
+        self.lines = None
 
     def read_file(self, input_path: Path) -> dict:
         '''
@@ -30,7 +31,7 @@ class GeometryIO(FileIO):
         Return:
             file_data: Preprocessed data from text file
         '''
-        file_raw_data = open(input_path).readlines()
+        file_raw_data = self.read_input_file(input_path)
         self.lines = GEO_FILE_LINES_V1 if len(file_raw_data) == 30 else GEO_FILE_LINES_V2
         file_data = {}
         for i, line in enumerate(file_raw_data):
@@ -55,7 +56,7 @@ class GeometryIO(FileIO):
         Return:
             None
         '''
-        temp_data = open(temp_path).readlines()
+        temp_data = self.read_input_file(temp_path)
         self.lines = GEO_FILE_LINES_V1 if len(temp_data) == 30 else GEO_FILE_LINES_V2
         self.lines = {v:k for k,v in self.lines.items()}
         self.geo_params = {v:k for k,v in self.geo_params.items()}
@@ -66,7 +67,7 @@ class GeometryIO(FileIO):
             value = f'{value:.3}' if  line_num%3==2 else f'{value:.4}'
             line[param_num] = value
             temp_data[line_num] = ' '.join(line) + '\n'
-        with open(output_path, 'w') as file_writer:
+        with open(output_path, 'w', encoding="utf8") as file_writer:
             file_writer.write(''.join(temp_data))
 
     def _kw_to_pos(self, keyword: str) -> tuple:

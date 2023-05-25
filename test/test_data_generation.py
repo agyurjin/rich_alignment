@@ -23,6 +23,3 @@ def test_only_geo_data():
     rich_align = RICHAlignment(jsons_path)
     rich_align.create_data(output_path, 10, geo_path, None)
 
-def test_created_metadata():
-    pass
-

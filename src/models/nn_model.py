@@ -1,7 +1,6 @@
 '''
 NN model
 '''
-import sys
 import json
 from pathlib import Path
 from copy import deepcopy
@@ -40,7 +39,6 @@ class NNModel(BaseModel):
         best_model = None
         best_loss = 1e10
         verbose = 1000
-        prev_val_loss = 1e10
 
         x_train, y_train = data_loader.get_trainset()
         x_val, y_val = data_loader.get_testset()
@@ -50,16 +48,17 @@ class NNModel(BaseModel):
         x_train_std = x_train.std(axis=0)
         y_train_std = y_train.std(axis=0)
 
+
         self.norm_params['x_mean'] = x_train_mean
         self.norm_params['x_std'] = x_train_std
         self.norm_params['y_mean'] = y_train_mean
         self.norm_params['y_std'] = y_train_std
 
         x_train = (x_train - x_train_mean)/(x_train_std+1e-5)
-        y_train = (y_train - y_train_mean)/(y_train_std+1e-5) 
+        y_train = (y_train - y_train_mean)/(y_train_std+1e-5)
         x_val = (x_val - x_train_mean)/(x_train_std+1e-5)
         y_val = (y_val - y_train_mean)/(y_train_std+1e-5)
-        
+
         for i in range(epochs):
             optimizer.zero_grad()
             y_pred = self.model(x_train)
@@ -67,8 +66,8 @@ class NNModel(BaseModel):
             loss_v.backward()
             optimizer.step()
             running_loss += float(loss_v)
-        
-            if (i+1) % verbose == 0: 
+
+            if (i+1) % verbose == 0:
                 with torch.no_grad():
                     y_pred = self.model(x_val)
                     loss_v = loss_fn(y_pred, y_val)
@@ -85,13 +84,27 @@ class NNModel(BaseModel):
                 self.loss_hist['train_loss'].append(running_loss/verbose)
                 self.loss_hist['val_loss'].append(val_loss)
                 self.loss_hist['epochs'].append(i+1)
-                running_loss = 0
 
+                if (i+1) % 10000 == 0:
+                    output_dir = Path(f'model_{i+1}')
+                    output_dir.mkdir(exist_ok=True, parents=True)
+                    self.save_model(output_dir)
+
+                running_loss = 0
 
         if best_model is not None:
             self.model = best_model
 
-    def predict(self, x):
+    def predict(self, x: torch.tensor) -> torch.tensor:
+        '''
+        Predict value for the given points
+
+        Parameters:
+            x: Points for prediction
+
+        Return:
+            y_pred: Predicted values
+        '''
         x = (x - self.norm_params['x_mean'])/self.norm_params['x_std']
         with torch.no_grad():
             y_pred = self.model(x)
@@ -116,19 +129,19 @@ class NNModel(BaseModel):
         res['x_mean'] = self.norm_params['x_mean'].tolist()
         res['x_std'] = self.norm_params['x_std'].tolist()
         res['y_mean'] = self.norm_params['y_mean'].tolist()
-        res['y_std'] = self.norm_params['y_std'].tolist()      
+        res['y_std'] = self.norm_params['y_std'].tolist()
 
         torch.save(self.model.state_dict(), output_path/model_name)
-        with open(output_path/loss_hist_name, 'w') as fw:
+        with open(output_path/loss_hist_name, 'w', encoding='utf8') as fw:
             json.dump(self.loss_hist, fw)
 
-        with open(output_path/model_config_name, 'w') as fw:
+        with open(output_path/model_config_name, 'w', encoding='utf8') as fw:
             json.dump(res, fw)
 
         res = {
             'model_name': model_name,
             'model_config_name': model_config_name,
-            'loss_hist_name': loss_hist_name 
+            'loss_hist_name': loss_hist_name
         }
         return res
 
@@ -143,7 +156,8 @@ class NNModel(BaseModel):
             None
         '''
         self.model.load_state_dict(torch.load(model_path))
-        norm_data = json.load(open(norm_path))
+        with open(norm_path, encoding='utf8') as file_handler:
+            norm_data = json.load(file_handler)
         x_mean = torch.tensor(norm_data['x_mean'])
         x_std = torch.tensor(norm_data['x_std'])
         y_mean = torch.tensor(norm_data['y_mean'])

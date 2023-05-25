@@ -28,14 +28,15 @@ class TopologyIO(FileIO):
         Return:
             file_data: Parsed dictinory
         '''
-        file_raw_data = open(input_path).readlines()
+        file_raw_data = self.read_input_file(input_path)
         file_data = {}
         for line in file_raw_data:
             line_struc = self._clean_line(line)
             layer_id = int(line_struc[0]) + 1
             tile_id = int(line_struc[1]) + 1
             for j, value in enumerate(line_struc[2:]):
-                file_data[f'{self.name}_aerogel_b{layer_id}_tile_{tile_id}_{self.params[j]}'] = float(value)
+                key_name = f'{self.name}_aerogel_b{layer_id}_tile_{tile_id}_{self.params[j]}'
+                file_data[key_name] = float(value)
         return file_data
 
     def create_file(self, output_path: Path, temp_path: Path, evt_data: dict) -> None:

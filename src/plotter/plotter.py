@@ -1,15 +1,30 @@
+'''
+CERN ROOT plotter
+'''
+# To skip ROOT pylint errors
+#pylint: disable=E1101
+
+import json
+from itertools import combinations
+from tqdm import tqdm
+import torch
 import ROOT
 import numpy as np
-from itertools import combinations
-import torch
-from tqdm import tqdm
-import json
 
 ROOT.gROOT.SetBatch(True)
 ROOT.gStyle.SetOptStat(False)
 
 class Plotter:
+    '''
+    Plotter class
+    '''
     def __init__(self, model):
+        '''
+        Init method
+
+        Parameters:
+            model: Model for plots
+        '''
         self.model = model
         self.in_space = None
         self.out_space = None
@@ -19,6 +34,14 @@ class Plotter:
         self.pos_error = None
 
     def setup_prediction_plotter(self, in_space, out_space, res):
+        '''
+        Pass input and output spaces for plots
+
+        Parameters:
+            in_space: Input space dict from input JSON
+            out_space: Output space dict from input JSON
+            res: Results from minimizer
+        '''
         self.in_space = in_space
         self.out_space = out_space
         self.min_point = np.array(res['min_point'])
@@ -27,6 +50,12 @@ class Plotter:
         self.pos_error = np.array(res['pos_error'])
 
     def create_root_tree(self, output_path):
+        '''
+        Create ROOT file
+
+        Parameters:
+            output_path: ROOT file full path
+        '''
         root_file = ROOT.TFile.Open(str(output_path), 'RECREATE')
 
         N = len(self.min_point)
@@ -64,8 +93,19 @@ class Plotter:
                 g1.Draw('*')
                 g2.Draw('same')
                 canv.Write()
+        root_file.Close()
 
     def _create_root_tgraph(self, comb):
+        '''
+        Create two TGraphs one is for statistics errors, second MINUIT errors
+
+        Parameters:
+            comb: Used keywords indexes
+
+        Return:
+            g1: Statistics errors TGraph
+            g2: MINUIT errors TGraph
+        '''
         min_point = self.min_point[comb]
         min_error = self.stat_error[comb]
         pos_error = self.pos_error[comb]
@@ -88,7 +128,8 @@ class Plotter:
 
         return g1, g2
 
-    def _create_root_hist(self, chi2, points, axis1_bins, axis2_bins, labels=None):
+    @staticmethod
+    def _create_root_hist(chi2, points, axis1_bins, axis2_bins, labels=None):
         '''
         Create single plot
 
@@ -116,12 +157,21 @@ class Plotter:
         hist.SetTitle(labels)
         return hist
 
-    def draw_losses(self, output_path, loss_hist_name):
-        loss_data = json.load(open(output_path / loss_hist_name))
+    @staticmethod
+    def draw_losses(output_path, loss_hist_name):
+        '''
+        Draw training loss function from saved JSON file
+
+        Parameters:
+            output_path: Loss history JSON path
+            loss_hist_name: Name of the file
+        '''
+        with open(output_path / loss_hist_name, encoding='utf8') as file_handler:
+            loss_data = json.load(file_handler)
         canv = ROOT.TCanvas('canv', 'canv', 800, 600)
         epochs = np.array(loss_data['epochs'], dtype=float)
         train = np.array(loss_data['train_loss'], dtype=float)
-        test = np.array(loss_data['val_loss'], dtype=float) 
+        test = np.array(loss_data['val_loss'], dtype=float)
         N = len(epochs)
         g1 = ROOT.TGraph(N, epochs, train)
         g2 = ROOT.TGraph(N, epochs, test)
@@ -141,18 +191,24 @@ class Plotter:
         output_path = output_path / 'loss.pdf'
         canv.SaveAs(str(output_path))
 
-
     def draw_diff(self, output_path, data_loader):
+        '''
+        Draw absoulute and relative differences
+
+        Parameters:
+            output_path: Output path to save figure
+            data_loader: Data loader object
+        '''
         canv = ROOT.TCanvas('canv', 'canv', 800, 600)
         h1 = ROOT.TH1F('h1', 'h1', 40, -0.6, 0.6)
         h2 = ROOT.TH1F('h2', 'h2', 40, -0.6, 0.6)
 
         X_train, y_train = data_loader.get_trainset()
         X_val, y_val = data_loader.get_testset()
-        
+
         y_train_pred = self.model.predict(X_train)
         y_val_pred = self.model.predict(X_val)
-        
+
         y_train_pred = y_train_pred.mean(axis=1)
         y_val_pred = y_val_pred.mean(axis=1)
         y_train = y_train.mean(axis=1)

@@ -33,10 +33,9 @@ class SGDMinimizer(BaseMinimizer):
         '''
         start_points = self.get_start_points(in_space, kwargs['number_of_samples'])
 
-        positions = None
         mins = []
         for point in tqdm(start_points):
-            min_point, position = self.sgd_momentum(point, **kwargs)
+            min_point = self.sgd_momentum(point, **kwargs)
             mins.append(min_point.numpy())
         mins = np.array(mins)
         mins = mins[np.any(~np.isnan(mins), axis=1), :]
@@ -59,7 +58,6 @@ class SGDMinimizer(BaseMinimizer):
         grad_args = {}
         x = torch.tensor(start_pos, dtype=torch.float)
         v = torch.zeros_like(x)
-        positions = [x]
         lr = 0.1*torch.tensor(self.precisions, dtype=torch.float)
         steps = torch.tensor(self.precisions, dtype=torch.float)
 
@@ -72,8 +70,7 @@ class SGDMinimizer(BaseMinimizer):
 
                 v = kwargs['momentum'] * v + (1 - kwargs['momentum'])*grad
                 x = x - lr * v
-                positions.append(x)
-        return x, positions
+        return x
 
     def _grad_calc(self, point, **kwargs):
         '''

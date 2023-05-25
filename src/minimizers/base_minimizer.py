@@ -36,7 +36,8 @@ class BaseMinimizer:
         '''
         self.precisions = precisions
 
-    def get_start_points(self, in_space, nums):
+    @staticmethod
+    def get_start_points(in_space, nums):
         '''
         Generate initial points in the input space
 
@@ -57,6 +58,7 @@ class BaseMinimizer:
         return points
 
     def min_error_calc(self, point, sigma, up, iters, step, limit):
+        #TODO: IMPOVE THIS FUNCTION
         '''
         MINUIT error calculation algorithm
 

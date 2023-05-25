@@ -26,6 +26,21 @@ class FileIO(ABC):
         '''
         raise NotImplementedError()
 
+    @staticmethod
+    def read_input_file(input_file_path: str) -> list:
+        '''
+        Read input txt file
+
+        Parameters:
+            input_file_path: Path to the data file
+
+        Return:
+            raw_data: Input files lines as list
+        '''
+        with open(input_file_path, encoding="utf8") as file_handler:
+            raw_data = file_handler.readlines()
+        return raw_data
+
     def create_file(self, output_path: Path, temp_path: Path, evt_data: dict) -> None:
         '''
         Read template file and create similar file with new parameters

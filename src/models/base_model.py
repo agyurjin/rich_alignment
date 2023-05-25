@@ -2,7 +2,6 @@
 Abstract model class
 '''
 from abc import ABC, abstractmethod
-import torch
 
 class BaseModel(ABC):
     '''
@@ -45,15 +44,17 @@ class BaseModel(ABC):
         '''
 
     @abstractmethod
-    def load_model(self, model_path):
+    def load_model(self, model_path, norm_path):
         '''
         Load already saved model
 
         Parameters:
             model_path (Path or str): Path to the model weights.
                 Config file should be in the same level.
+            norm_path: Mean and STD values from trained model
         '''
 
+    """
     def _preprocess_data(self, x_set, y_set, train_set=True):
         '''
         Preprocess data
@@ -88,3 +89,4 @@ class BaseModel(ABC):
             data (torch.tensor): (N, F+T) dimensional tensor real values
         '''
         return data * self.data_stds + self.data_means
+    """

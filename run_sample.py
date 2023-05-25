@@ -1,10 +1,16 @@
 from src import RICHAlignment
 from pathlib import Path
+import shutil
 
-folder_names = ['model_17_05_m_5d', 'model_17_05_m_dp', 'model_17_05_m_s5c_b1', 'model_17_05_m_s5c_b2']
+trained_model_path_main = '../model_mixed_data_new_25_05'
 
-
-trained_model_path = str(Path('/home/agyurjin/infn/infn_nn')/'test_new_v1')
 rich = RICHAlignment('jsons')
-rich.run_training(trained_model_path)
-rich.run_prediction(trained_model_path)
+rich.run_training(trained_model_path_main)
+rich.run_minimum_finder(trained_model_path_main)
+
+for i in range(10000, 1010000, 10000):
+    trained_model_path = f'./model_{i}'
+    rich = RICHAlignment('jsons')
+    shutil.copy(f'{trained_model_path_main}/training_config.json', f'{trained_model_path}/training_config.json')
+    rich.run_minimum_finder(trained_model_path)
+

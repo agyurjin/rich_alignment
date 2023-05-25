@@ -45,13 +45,14 @@ class Minimizer:
 
         self.strategy.set_precisions(in_space['precisions'])
         min_point, min_error = self.strategy.minimize(in_space, **self.args)
-        pos_error = self.strategy.min_error_calc(min_point, sigma=None, up=1, iters=10000, step=0.1, limit=100)
-        neg_error = self.strategy.min_error_calc(min_point, sigma=None, up=1, iters=10000, step=-0.1, limit=-100)
+        pos_error = self.strategy.min_error_calc(min_point, None, 1, 10000, 0.1, 100)
+        neg_error = self.strategy.min_error_calc(min_point, None, 1, 10000, -0.1, -100)
         self._do_prints(min_point, min_error, pos_error, neg_error)
 
         return min_point, min_error, pos_error, neg_error
 
-    def _do_prints(self, min_point, min_error, pos_error, neg_error):
+    @staticmethod
+    def _do_prints(min_point, min_error, pos_error, neg_error):
         '''
         Some printings
 
@@ -65,11 +66,11 @@ class Minimizer:
         print(header)
         print('-'*len(header))
         print('STATISTICAL ERROR')
-        for i in range(len(min_point)):
-            print(f'{min_point[i]:.5} +/- {min_error[i]:.5}')
+        for min_p, min_e in zip(min_point, min_error):
+            print(f'{min_p:.5} +/- {min_e:.5}')
 
         print('-'*len(header))
         print('MINUIT ERROR')
-        for i in range(len(min_point)):
-            print(f'{min_point[i]:.5} + {pos_error[i]:.5} - {neg_error[i]:.5}')
+        for min_p, pos_e, neg_e in zip(min_point, pos_error, neg_error):
+            print(f'{min_p:.5} + {pos_e:.5} - {neg_e:.5}')
         print('-'*len(header))

@@ -29,7 +29,7 @@ class AerogelIO(FileIO):
         Return:
             file_data: Preprocessed data from text file
         '''
-        file_raw_data = open(input_path).readlines()
+        file_raw_data = self.read_input_file(input_path)
         file_data = {}
         for line in file_raw_data:
             line_struc = self._clean_line(line)

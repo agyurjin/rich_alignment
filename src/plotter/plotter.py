@@ -203,8 +203,7 @@ class Plotter:
         h1 = ROOT.TH1F('h1', 'h1', 40, -0.6, 0.6)
         h2 = ROOT.TH1F('h2', 'h2', 40, -0.6, 0.6)
 
-        X_train, y_train = data_loader.get_trainset()
-        X_val, y_val = data_loader.get_testset()
+        X_train, X_val, y_train, y_val = data_loader.get_data()
 
         y_train_pred = self.model.predict(X_train)
         y_val_pred = self.model.predict(X_val)

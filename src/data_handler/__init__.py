@@ -1,8 +1,7 @@
 '''
 Init file
 '''
-
 from .data_generator import DataGenerator
-from .data_loader import DataLoader
+from .data_reader import DataReader
 
-__all__ = ['DataGenerator', 'DataLoader']
+__all__ = ['DataGenerator', 'DataReader']

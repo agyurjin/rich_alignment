@@ -20,20 +20,19 @@ class RICHAlignmentModel():
         else:
             raise NotImplementedError
 
-    def train(self, output_path, dataloader, iter_num, optimizer_data):
+    def train(self, output_path, datareader, train_info):
         '''
         Train model
 
         Parameters:
             output_path:
-            dataloader:
-            iter_num:
-            optimizer_data:
+            datareader:
+            train_info
 
         Return:
             res
         '''
-        self.model.train(dataloader, iter_num, optimizer_data)
+        self.model.train(datareader, train_info)
         res = self.model.save_model(output_path)
         return res
 

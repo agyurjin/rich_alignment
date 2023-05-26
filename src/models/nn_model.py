@@ -27,10 +27,11 @@ class NNModel(BaseModel):
         self.model = fcn(configs)
         self.loss_hist = {'train_loss': [], 'val_loss':[], 'epochs':[]}
         self.norm_params = {'x_mean': [], 'x_std': [], 'y_mean': [], 'y_std': []}
+        self.device = 'cuda' if torch.cuda.is_available() else cpu
 
-    def train(self, data_loader, epochs, optimizer_data):
-        lr = optimizer_data['lr'] if 'lr' in optimizer_data else 1e-2
-        momentum = optimizer_data['momentum'] if 'momentum' in optimizer_data else 0.9
+    def train(self, data_reader, train_info):
+        lr = train_info['optimizer']['lr']
+        momentum = train_info['optimizer']['momentum']
 
         loss_fn = torch.nn.MSELoss()
         optimizer = torch.optim.SGD(self.model.parameters(), lr=lr, momentum=momentum)
@@ -40,8 +41,7 @@ class NNModel(BaseModel):
         best_loss = 1e10
         verbose = 1000
 
-        x_train, y_train = data_loader.get_trainset()
-        x_val, y_val = data_loader.get_testset()
+        x_train, x_val, y_train, y_val = data_reader.get_data(test_size=train_info['val_size'])
         
         x_train_mean = x_train.mean(axis=0)
         y_train_mean = y_train.mean(axis=0)
@@ -59,7 +59,11 @@ class NNModel(BaseModel):
         x_val = (x_val - x_train_mean)/(x_train_std+1e-5)
         y_val = (y_val - y_train_mean)/(y_train_std+1e-5)
 
-        for i in range(epochs):
+        x_train, x_val = x_train.to(self.device), x_val.to(self.device)
+        y_train, y_val = y_train.to(self.device), y_val.to(self.device)
+        self.model = self.model.to(self.device)
+
+        for i in range(train_info['epochs']):
             optimizer.zero_grad()
             y_pred = self.model(x_train)
             loss_v = loss_fn(y_pred, y_train)
@@ -77,7 +81,7 @@ class NNModel(BaseModel):
                     best_loss = val_loss
 
                 print('*'*20)
-                print(f'[TRAINING] Epoch {i+1}/{epochs}')
+                print(f"[TRAINING] Epoch {i+1}/{train_info['epochs']}")
                 print(f'[TRAINING] train loss: {running_loss/verbose:.5f}')
                 print(f'[TRAINING] val loss: {val_loss:.5f}')
                 print('*'*20)
@@ -85,11 +89,12 @@ class NNModel(BaseModel):
                 self.loss_hist['val_loss'].append(val_loss)
                 self.loss_hist['epochs'].append(i+1)
 
+                '''
                 if (i+1) % 10000 == 0:
                     output_dir = Path(f'model_{i+1}')
                     output_dir.mkdir(exist_ok=True, parents=True)
                     self.save_model(output_dir)
-
+                '''
                 running_loss = 0
 
         if best_model is not None:
@@ -107,7 +112,7 @@ class NNModel(BaseModel):
         '''
         x = (x - self.norm_params['x_mean'])/self.norm_params['x_std']
         with torch.no_grad():
-            y_pred = self.model(x)
+            y_pred = self.model.to('cpu')(x)
         y_pred = y_pred * self.norm_params['y_std'] + self.norm_params['y_mean']
         return y_pred
 

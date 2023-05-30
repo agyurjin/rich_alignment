@@ -14,7 +14,7 @@ The developed approch is to use Fast Monte Carlo (FastMC) RICH simulation output
 
 The input files for FastMC are geometry and optical files. To create data point the code example can be used
 
-```
+```python3
 from src import RICHAlignment
 
 input_jsons = 'jsons' # path to input jsons

@@ -39,6 +39,10 @@
             {"aerogel_b2_s5c_b2_chi2": {"exists":true}}
         ],
         "TOPOLOGY":[
+        ],
+        "MAPMT":[
+        ],
+        "TRACKS":[
         ]
     }
 }

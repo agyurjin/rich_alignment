@@ -28,6 +28,7 @@ class DataGenerator():
         self.data_parser = DataParser()
 
         self.geo_keywords = []
+        self.geo_correlation = {}
         self.opt_keywords = []
         self.input_dict = {}
         for i, keywords in enumerate([input_dict['GEOMETRY'], input_dict['OPTICAL']]):
@@ -36,6 +37,8 @@ class DataGenerator():
                 if values['exists']:
                     if i == 0:
                         self.geo_keywords.append(key)
+                        if "corr" in values and values['corr']:
+                            self.geo_correlation[key] = values['corr']
                     else:
                         self.opt_keywords.append(key)
                     self.input_dict[key] = values['grid']
@@ -124,6 +127,8 @@ class DataGenerator():
                 value = np.random.uniform(grid[0], grid[1])
                 if i == 0:
                     geo_event[keyword] = value
+                    if keyword in self.geo_correlation:
+                        geo_event[self.geo_correlation[keyword]] = value
                 else:
                     opt_event[keyword] = value
         return geo_event, opt_event

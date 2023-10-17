@@ -7,6 +7,9 @@ from .geometry_io import GeometryIO
 from .optical_io import OpticalIO
 from .aerogel_io import AerogelIO
 from .topology_io import TopologyIO
+from .mapmt_io import MapmtIO
+from .variance_io import VarianceIO
+from .tracks_io import TracksIO
 
 from .reader_structs import TOP_FILE_NAMES
 
@@ -34,10 +37,16 @@ class DataParser:
         file_suffix = file_path.suffix
         if 'Geometry' in file_name and file_suffix == '.dat':
             self.strategy = GeometryIO()
+        elif 'Variance' in  file_name and file_suffix == '.dat':
+            self.strategy = VarianceIO()
         elif 'Optical' in file_name and file_suffix == '.dat':
             self.strategy = OpticalIO()
         elif 'Aerogel' in file_name and file_suffix == '.out':
             self.strategy = AerogelIO()
+        elif 'MAPMT' in file_name and file_suffix == '.out':
+            self.strategy = MapmtIO()
+        elif 'Tracks' in file_name and file_suffix == '.out':
+            self.strategy = TracksIO()
         elif file_suffix == '.out':
             for name in TOP_FILE_NAMES:
                 if name in file_name:

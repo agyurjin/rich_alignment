@@ -57,7 +57,7 @@ class RICHAlignment():
             print('ERROR: charge is wrong in json file!!!!!!!!!!!')
 
         data_reader = DataReader(raw_keywords, train_meta_data['META'], train_meta_data['DATASETS'])
-
+        
         train_meta_data['MODEL']['input_layer'] = data_reader.in_dim
         train_meta_data['MODEL']['output_layer'] = data_reader.out_dim
 
@@ -71,7 +71,7 @@ class RICHAlignment():
 
         plots = Plotter(model)
         plots.draw_losses(output_dir, res['loss_hist_name'])
-        plots.draw_diff(output_dir/'diff.pdf', data_reader)
+        plots.draw_diff(output_dir/'diff.pdf', data_reader)  
 
     def run_minimum_finder(self, trained_model_dir: str) -> None:
         '''
@@ -186,7 +186,7 @@ minima_data['MINIMA']['precisions'], mixing)
             in_space['names'].append('charge')
             in_space['precisions'].append(1)
 
-        output_keywords = keywords['OUTPUT']['AEROGEL']
+        output_keywords = keywords['OUTPUT']['AEROGEL'] + keywords['OUTPUT']['TOPOLOGY'] + keywords['OUTPUT']['MAPMT'] + keywords['OUTPUT']['TRACKS']
         names = []
         for outkw in output_keywords:
             for name, value in outkw.items():

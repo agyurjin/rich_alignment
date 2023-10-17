@@ -33,10 +33,11 @@ class TopologyIO(FileIO):
         for line in file_raw_data:
             line_struc = self._clean_line(line)
             layer_id = int(line_struc[0]) + 1
-            tile_id = int(line_struc[1]) + 1
+            tile_id = int(line_struc[1])
             for j, value in enumerate(line_struc[2:]):
                 key_name = f'{self.name}_aerogel_b{layer_id}_tile_{tile_id}_{self.params[j]}'
                 file_data[key_name] = float(value)
+        print(file_data)
         return file_data
 
     def create_file(self, output_path: Path, temp_path: Path, evt_data: dict) -> None:

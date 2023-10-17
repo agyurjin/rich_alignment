@@ -5,8 +5,8 @@ Geometry file IO
 from pathlib import Path
 
 from .file_io import FileIO
-from .reader_structs import (GEO_FILE_LINES_V1, GEO_FILE_LINES_V2,
- GEO_FILE_EUCLIDE_PARAMS, GEO_FILE_ANGLE_PARAMS)
+from .reader_structs import (GEO_FILE_LINES, GEO_FILE_EUCLIDE_PARAMS,
+ GEO_FILE_ANGLE_PARAMS)
 
 class GeometryIO(FileIO):
     '''
@@ -19,7 +19,7 @@ class GeometryIO(FileIO):
         super().__init__(name)
         self.geo_params = GEO_FILE_EUCLIDE_PARAMS
         self.angle_params = GEO_FILE_ANGLE_PARAMS
-        self.lines = None
+        self.lines = GEO_FILE_LINES
 
     def read_file(self, input_path: Path) -> dict:
         '''
@@ -32,7 +32,6 @@ class GeometryIO(FileIO):
             file_data: Preprocessed data from text file
         '''
         file_raw_data = self.read_input_file(input_path)
-        self.lines = GEO_FILE_LINES_V1 if len(file_raw_data) == 30 else GEO_FILE_LINES_V2
         file_data = {}
         for i, line in enumerate(file_raw_data):
             if i % 3 == 0:
@@ -57,7 +56,6 @@ class GeometryIO(FileIO):
             None
         '''
         temp_data = self.read_input_file(temp_path)
-        self.lines = GEO_FILE_LINES_V1 if len(temp_data) == 30 else GEO_FILE_LINES_V2
         self.lines = {v:k for k,v in self.lines.items()}
         self.geo_params = {v:k for k,v in self.geo_params.items()}
         for key,value in evt_data.items():

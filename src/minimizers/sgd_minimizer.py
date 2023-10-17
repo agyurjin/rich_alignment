@@ -58,8 +58,8 @@ class SGDMinimizer(BaseMinimizer):
         grad_args = {}
         x = torch.tensor(start_pos, dtype=torch.float)
         v = torch.zeros_like(x)
-        lr = 0.1*torch.tensor(self.precisions, dtype=torch.float)
-        steps = torch.tensor(self.precisions, dtype=torch.float)
+        lr = 0.01*torch.tensor(self.precisions, dtype=torch.float)
+        steps = 0.1*torch.tensor(self.precisions, dtype=torch.float)
 
         with torch.no_grad():
             for _ in range(kwargs['iters']):

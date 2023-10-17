@@ -75,8 +75,7 @@ class Plotter:
             X = torch.tensor(X, dtype=torch.float)
             Y = self.model.predict(X)
             Y = Y.detach().numpy()
-            Y = np.hstack((Y, Y.mean(axis=1).reshape(len(Y),1)))
-
+            Y = np.hstack((Y, Y.sum(axis=1).reshape(len(Y),1)))
             comb = list(comb)
             g1, g2 = self._create_root_tgraph(comb)
             for i in range(Y.shape[1]):
@@ -85,6 +84,7 @@ class Plotter:
                     hist_name = 'total'
                 else:
                     hist_name = self.out_space['names'][i]
+                    continue        
                 label = f"{hist_name};{self.in_space['names'][comb[0]]};{self.in_space['names'][comb[1]]}"
                 canv_name = '_'.join(label.split(';'))
                 canv = ROOT.TCanvas(canv_name, canv_name, 800, 600)
@@ -173,6 +173,8 @@ class Plotter:
         train = np.array(loss_data['train_loss'], dtype=float)
         test = np.array(loss_data['val_loss'], dtype=float)
         N = len(epochs)
+        if N <1:
+            return
         g1 = ROOT.TGraph(N, epochs, train)
         g2 = ROOT.TGraph(N, epochs, test)
 
@@ -191,20 +193,22 @@ class Plotter:
         output_path = output_path / 'loss.pdf'
         canv.SaveAs(str(output_path))
 
-    def draw_diff(self, output_path, data_loader):
+    def draw_diff(self, output_path, data_reader):
         '''
         Draw absoulute and relative differences
 
         Parameters:
             output_path: Output path to save figure
-            data_loader: Data loader object
+            data_reader: DataReader object
         '''
         canv = ROOT.TCanvas('canv', 'canv', 800, 600)
-        h1 = ROOT.TH1F('h1', 'h1', 40, -0.6, 0.6)
-        h2 = ROOT.TH1F('h2', 'h2', 40, -0.6, 0.6)
+        h1 = ROOT.TH1F('h1', 'h1', 400, -0.5, 0.5)
+        h2 = ROOT.TH1F('h2', 'h2', 400, -0.5, 0.5)
 
-        X_train, X_val, y_train, y_val = data_loader.get_data()
-
+#        train_loader, val_loader, _ = data_reader.get_data(240, norm=False)
+#        X_train, y_train = next(iter(train_loader))
+#        X_val , y_val = next(iter(val_loader))
+        X_train, X_val, y_train, y_val = data_reader.get_data(240, norm=False)
         y_train_pred = self.model.predict(X_train)
         y_val_pred = self.model.predict(X_val)
 

@@ -1,20 +1,42 @@
 AerogelB1 refractive index, average Npe, angular smearing, efficiency
 1.05 12 0.0045 0.9
 AerogelB2 refractive index, average Npe, angular smearing, efficiency
-1.048 12 0.0045 0.9
+1.05 12 0.0045 0.9
 AerogelB3 refractive index, average Npe, angular smearing, efficiency
 1.05 16 0.0045 0.9
 FrontalMirrorB1 angular smearing, efficiency (including double aerogel passage)
 0. 0.36
 FrontalMirrorB2 angular smearing, efficiency (including double aerogel passage)
 0. 0.36
-PlanarMirrorL  angular smearing, efficiency
+PlanarMirrorA2L  angular smearing, efficiency
 0. 0.9
-PlanarMirrorR  angular smearing, efficiency
+PlanarMirrorA2R  angular smearing, efficiency
 0. 0.9
-BottomMirror  angular smearing, efficiency
+PlanarMirrorA3  angular smearing, efficiency
 0. 0.9
-SphericalMirror  angular smearing, efficiency
+PlanarMirrorA1L  angular smearing, efficiency
+0. 0.9
+PlanarMirrorA1R  angular smearing, efficiency
+0. 0.9
+SphericalMirror S1 angular smearing, efficiency
+0. 0.9
+SphericalMirror S2 angular smearing, efficiency
+0. 0.9
+SphericalMirror S3 angular smearing, efficiency
+0. 0.9
+SphericalMirror S4 angular smearing, efficiency
+0. 0.9
+SphericalMirror S2c angular smearing, efficiency
+0. 0.9
+SphericalMirror S3c angular smearing, efficiency
+0. 0.9
+SphericalMirror S4c angular smearing, efficiency
+0. 0.9
+SphericalMirror S5 angular smearing, efficiency
+0. 0.9
+SphericalMirror S5c angular smearing, efficiency
+0. 0.9
+SphericalMirror S6 angular smearing, efficiency
 0. 0.9
 MAPMT efficiency and ave hits per evt
 1. 1.

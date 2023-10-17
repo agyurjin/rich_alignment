@@ -19,8 +19,9 @@ class fcn(nn.Module):
         modules = []
         for i in range(len(layers)-1):
             modules.append(nn.Linear(layers[i], layers[i+1]))
-            #modules.append(nn.ReLU())
-            modules.append(nn.Sigmoid())
+            modules.append(nn.ReLU())
+#            modules.append(nn.Sigmoid())
+#            modules.append(nn.Dropout(p=0.2))
 #            modules.append(nn.BatchNorm1d(layers[i+1]))
         modules.append(nn.Linear(layers[-1], params['output_layer']))
 

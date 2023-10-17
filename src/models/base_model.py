@@ -16,18 +16,14 @@ class BaseModel(ABC):
         self.feature_size = None
 
     @abstractmethod
-    def train(self, data_loader, epochs, optimizer_data):
+    def train(self, data_reader, train_info):
         '''
         Train model and keep best on validation set
 
         Parameters:
-            x_train: (N', F) dimensional tensor for training features
-            y_train: (N', T) dimensional tensor for training targets
-            x_val: (N", F) dimensional tensor for validation features
-            y_val: (N", T) dimensional tensor for validation targets
+            data_reader: DataReader object to get data
+            train_info: Trinaing metadatas
 
-        Return:
-            None
         '''
 
     @abstractmethod
@@ -53,40 +49,3 @@ class BaseModel(ABC):
                 Config file should be in the same level.
             norm_path: Mean and STD values from trained model
         '''
-
-    """
-    def _preprocess_data(self, x_set, y_set, train_set=True):
-        '''
-        Preprocess data
-
-        Parameters:
-            data (torch.tensor): (N, F+T) dimensional tensor stacked together featres and targets
-
-        Return:
-            data (torch.tensor): (N, F+T) dimensional tensor normalized data
-        '''
-        data = torch.hstack((x_set,y_set))
-        self.feature_size = x_set.size()[1]
-
-        if train_set:
-            self.data_means = torch.mean(data, axis = 0) if self.norm else torch.zeros(data.size()[1])
-            self.data_stds = torch.std(data, axis = 0) if self.norm else torch.ones(data.size()[1])
-
-        # TODO: MAYBE NOT BEST SOLUTION. TRY TO FIND BETTER ONE!
-        self.data_stds[self.data_stds == 0] = 1
-
-        data = (data - self.data_means) / self.data_stds
-        return data[:, :x_set.size()[1]], data[:, x_set.size()[1]:]
-
-    def _postproces_data(self, data):
-        '''
-        Postprocess data
-
-        Parameters:
-            data (torch.tensor): (N, F+T) dimensional tensor normalized data
-
-        Return:
-            data (torch.tensor): (N, F+T) dimensional tensor real values
-        '''
-        return data * self.data_stds + self.data_means
-    """

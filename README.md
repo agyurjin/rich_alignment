@@ -8,7 +8,15 @@
 
 ## Introduction
 
-The developed approch is to use Fast Monte Carlo (FastMC) RICH simulation output and find best RICH alignment parameters that describes reconstructed tracks.
+The developed approch is to use Fast Monte Carlo (FastMC) RICH simulation output and find best RICH alignment parameters that describes reconstructed tracks. The code provides functions to create geometry and optical files combinations to do reconstruction, train neural network model with FastMC reconstruction output and find minima, which is best set of parameters that produce best results for the reconstructed chi-square topolpgies. 
+
+## Input JSONs
+
+There are 3 required input JSONs file to fully run the program. However, that doesn't mean that for all the functions the 3 files are requires. There files are 'keywords.json', 'training_config.json' and 'minima_config.json'.
+
+1. 'keywords.json'
+
+    Contains important information about the dataset 
 
 ## Create geometry and optical files
 

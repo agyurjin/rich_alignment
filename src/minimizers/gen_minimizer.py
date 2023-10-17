@@ -35,7 +35,7 @@ class GenMinimizer(BaseMinimizer):
         prev_best_points = None
         for _ in tqdm(range(kwargs['iters'])):
             points = self.get_start_points(in_space, kwargs['number_of_samples'])
-            for _ in range(1000):
+            for _ in range(20000):
                 fitness = self._get_fitness(points)
 
                 best_points = points[np.argsort(fitness)][:int(0.2*len(points))+1]

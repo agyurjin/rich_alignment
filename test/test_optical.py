@@ -15,8 +15,8 @@ def test_optical_reader():
     assert optical_data['aerogel_b3_efficiency'] == 0.9
     assert 'frontal_mirror_b1_ref_index' not in optical_data
     assert 'frontal_mirror_b2_Npe' not in optical_data
-    assert optical_data['planar_mirror_l_smearing'] == 0
-    assert optical_data['planar_mirror_r_efficiency'] == 0.9
+    assert optical_data['planar_mirror_a2l_smearing'] == 0
+    assert optical_data['planar_mirror_a2r_efficiency'] == 0.9
     assert optical_data['planar_mirror_a3_efficiency'] == 0.9
     assert optical_data['spherical_mirror_s5c_efficiency'] == 0.9
     assert optical_data['mapmt_efficiency'] == 1.
@@ -30,9 +30,9 @@ def test_optical_writer():
         
         evt_dict = {
             'aerogel_b3_smearing': 1.2,
-            'planar_mirror_l_smearing': 3.5,
+            'planar_mirror_a1l_smearing': 3.5,
             'spherical_mirror_s5c_efficiency': 1.2,
-            'planar_mirror_r_efficiency': 0.8,
+            'planar_mirror_a1r_efficiency': 0.8,
             'mapmt_avg_hits': 2.3
         }
 

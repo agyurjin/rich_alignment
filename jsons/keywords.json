@@ -2,43 +2,156 @@
     "INPUT":{
         "GEOMETRY":[
             {"aerogel_b2_z": {
-                "exists": true, 
-                "grid":[-10,10,41]
+                "exists": true,
+                "grid": [-10,10,41],
+                "corr": "frontal_mirror_b2_z"
                 }
             },
             {"aerogel_b2_theta_x": {
                 "exists": true, 
-                "grid": [-0.02,0.02,41]
+                "grid": [-0.02,0.02,41],
+                "corr": "frontal_mirror_b2_theta_x"
                 }
             },
             {"aerogel_b2_theta_y": {
                 "exists": true, 
+                "grid": [-0.02,0.02,41],
+                "corr": "frontal_mirror_b2_theta_y"
+                }
+            },
+            {"spherical_mirror_s5c_z": {
+                "exists": true,
+                "grid":[-10,10,41]
+                }
+            },
+            {"spherical_mirror_s5c_theta_x": {
+                "exists": true, 
                 "grid": [-0.02,0.02,41]
                 }
             },
-            {"aerogel_b2_theta_z": {
-                "exists": false, 
+            {"spherical_mirror_s5c_theta_y": {
+                "exists": true, 
                 "grid": [-0.02,0.02,41]
                 }
             }
         ],
         "OPTICAL":[
             {"aerogel_b2_ref_index": {
-                "exists": true, 
+                "exists": false, 
                 "grid":[1.045,1.055,21]}
             }
         ]
     },
     "OUTPUT":{
         "AEROGEL":[
-            {"aerogel_b2_dp_chi2": {"exists":true}},
-            {"aerogel_b2_a2l_chi2": {"exists":true}},
-            {"aerogel_b2_a2r_chi2": {"exists":true}},
-            {"aerogel_b2_a3_chi2": {"exists":false}},
-            {"aerogel_b2_s5c_b1_chi2": {"exists":true}},
-            {"aerogel_b2_s5c_b2_chi2": {"exists":true}}
+            {"aerogel_b2_dp_chi2": {"exists": false}},
+            {"aerogel_b2_a2l_chi2": {"exists": false}},
+            {"aerogel_b2_a2r_chi2": {"exists": false}},
+            {"aerogel_b2_a3_chi2": {"exists": false}},
+            {"aerogel_b2_s5c_b1_chi2": {"exists": false}},
+            {"aerogel_b3_s5c_b1_chi2": {"exists": false}},
+            {"aerogel_b2_s5c_b2_chi2": {"exists": false}},
+            {"aerogel_b3_s5c_b2_chi2": {"exists": false}}
         ],
         "TOPOLOGY":[
+            {"dir_aerogel_b2_tile_2_chi2": {"exists":true}},
+            {"dir_aerogel_b2_tile_3_chi2": {"exists":true}},
+            {"dir_aerogel_b2_tile_4_chi2": {"exists":true}},
+            {"dir_aerogel_b2_tile_5_chi2": {"exists":true}},
+            {"dir_aerogel_b2_tile_6_chi2": {"exists":true}},
+            {"dir_aerogel_b2_tile_7_chi2": {"exists":true}},
+            {"dir_aerogel_b2_tile_12_chi2": {"exists":true}},
+            {"dir_aerogel_b2_tile_13_chi2": {"exists":true}},
+            {"dir_aerogel_b2_tile_14_chi2": {"exists":true}},
+            {"dir_aerogel_b2_tile_15_chi2": {"exists":true}},
+            {"dir_aerogel_b2_tile_16_chi2": {"exists":true}},
+            {"dir_aerogel_b2_tile_17_chi2": {"exists":true}},
+            {"dir_aerogel_b2_tile_21_chi2": {"exists":true}},
+            {"dir_aerogel_b2_tile_22_chi2": {"exists":true}},
+            {"dir_aerogel_b2_tile_23_chi2": {"exists":true}},
+            {"dir_aerogel_b2_tile_24_chi2": {"exists":true}},
+            {"dir_aerogel_b2_tile_25_chi2": {"exists":true}},
+            {"dir_aerogel_b2_tile_26_chi2": {"exists":true}},
+            {"dir_aerogel_b2_tile_27_chi2": {"exists":true}},
+            {"dir_aerogel_b2_tile_28_chi2": {"exists":true}},
+            {"dir_aerogel_b3_tile_5_chi2": {"exists":true}},
+            {"planA2L_aerogel_b2_tile_6_chi2": {"exists":false}},
+            {"planA2L_aerogel_b2_tile_7_chi2": {"exists":false}},
+            {"planA2L_aerogel_b2_tile_16_chi2": {"exists":false}},
+            {"planA2L_aerogel_b2_tile_17_chi2": {"exists":false}},
+            {"planA2L_aerogel_b2_tile_27_chi2": {"exists":false}},
+            {"planA2R_aerogel_b2_tile_2_chi2": {"exists":false}},
+            {"planA2R_aerogel_b2_tile_3_chi2": {"exists":false}},
+            {"planA2R_aerogel_b2_tile_12_chi2": {"exists":false}},
+            {"planA2R_aerogel_b2_tile_13_chi2": {"exists":false}},
+            {"planA2R_aerogel_b2_tile_22_chi2": {"exists":false}},
+            {"spheS9B1_aerogel_b2_tile_3_chi2": {"exists": true}},
+            {"spheS9B1_aerogel_b2_tile_4_chi2": {"exists": true}},
+            {"spheS9B1_aerogel_b2_tile_5_chi2": {"exists": true}},
+            {"spheS9B1_aerogel_b2_tile_6_chi2": {"exists": true}},
+            {"spheS9B1_aerogel_b2_tile_12_chi2": {"exists": true}},
+            {"spheS9B1_aerogel_b2_tile_13_chi2": {"exists": true}},
+            {"spheS9B1_aerogel_b2_tile_14_chi2": {"exists": true}},
+            {"spheS9B1_aerogel_b2_tile_15_chi2": {"exists": true}},
+            {"spheS9B1_aerogel_b2_tile_16_chi2": {"exists": true}},
+            {"spheS9B1_aerogel_b2_tile_17_chi2": {"exists": true}},
+            {"spheS9B1_aerogel_b2_tile_22_chi2": {"exists": true}},
+            {"spheS9B1_aerogel_b2_tile_23_chi2": {"exists": true}},
+            {"spheS9B1_aerogel_b2_tile_24_chi2": {"exists": true}},
+            {"spheS9B1_aerogel_b2_tile_25_chi2": {"exists": true}},
+            {"spheS9B1_aerogel_b2_tile_26_chi2": {"exists": true}},
+            {"spheS9B1_aerogel_b2_tile_27_chi2": {"exists": true}},
+            {"spheS9B1_aerogel_b3_tile_2_chi2": {"exists": true}},
+            {"spheS9B1_aerogel_b3_tile_3_chi2": {"exists": true}},
+            {"spheS9B1_aerogel_b3_tile_4_chi2": {"exists": true}},
+            {"spheS9B1_aerogel_b3_tile_5_chi2": {"exists": true}},
+            {"spheS9B1_aerogel_b3_tile_6_chi2": {"exists": true}},
+            {"spheS9B1_aerogel_b3_tile_7_chi2": {"exists": true}},
+            {"spheS9B1_aerogel_b3_tile_8_chi2": {"exists": true}},
+            {"spheS9B1_aerogel_b3_tile_9_chi2": {"exists": true}},
+            {"spheS9B1_aerogel_b3_tile_14_chi2": {"exists": true}},
+            {"spheS9B1_aerogel_b3_tile_15_chi2": {"exists": true}},
+            {"spheS9B1_aerogel_b3_tile_16_chi2": {"exists": true}},
+            {"spheS9B1_aerogel_b3_tile_17_chi2": {"exists": true}},
+            {"spheS9B1_aerogel_b3_tile_18_chi2": {"exists": true}},
+            {"spheS9B1_aerogel_b3_tile_19_chi2": {"exists": true}},
+            {"spheS9B1_aerogel_b3_tile_20_chi2": {"exists": true}},
+            {"spheS9B2_aerogel_b2_tile_3_chi2": {"exists": true}},
+            {"spheS9B2_aerogel_b2_tile_4_chi2": {"exists": true}},
+            {"spheS9B2_aerogel_b2_tile_5_chi2": {"exists": true}},
+            {"spheS9B2_aerogel_b2_tile_6_chi2": {"exists": true}},
+            {"spheS9B2_aerogel_b2_tile_12_chi2": {"exists": true}},
+            {"spheS9B2_aerogel_b2_tile_13_chi2": {"exists": true}},
+            {"spheS9B2_aerogel_b2_tile_14_chi2": {"exists": true}},
+            {"spheS9B2_aerogel_b2_tile_15_chi2": {"exists": true}},
+            {"spheS9B2_aerogel_b2_tile_16_chi2": {"exists": true}},
+            {"spheS9B2_aerogel_b2_tile_17_chi2": {"exists": true}},
+            {"spheS9B2_aerogel_b2_tile_22_chi2": {"exists": true}},
+            {"spheS9B2_aerogel_b2_tile_23_chi2": {"exists": true}},
+            {"spheS9B2_aerogel_b2_tile_24_chi2": {"exists": true}},
+            {"spheS9B2_aerogel_b2_tile_25_chi2": {"exists": true}},
+            {"spheS9B2_aerogel_b2_tile_26_chi2": {"exists": true}},
+            {"spheS9B2_aerogel_b2_tile_27_chi2": {"exists": true}},
+            {"spheS9B2_aerogel_b3_tile_2_chi2": {"exists": true}},
+            {"spheS9B2_aerogel_b3_tile_3_chi2": {"exists": true}},
+            {"spheS9B2_aerogel_b3_tile_4_chi2": {"exists": true}},
+            {"spheS9B2_aerogel_b3_tile_5_chi2": {"exists": true}},
+            {"spheS9B2_aerogel_b3_tile_6_chi2": {"exists": true}},
+            {"spheS9B2_aerogel_b3_tile_7_chi2": {"exists": true}},
+            {"spheS9B2_aerogel_b3_tile_8_chi2": {"exists": true}},
+            {"spheS9B2_aerogel_b3_tile_9_chi2": {"exists": true}},
+            {"spheS9B2_aerogel_b3_tile_14_chi2": {"exists": true}},
+            {"spheS9B2_aerogel_b3_tile_15_chi2": {"exists": true}},
+            {"spheS9B2_aerogel_b3_tile_16_chi2": {"exists": true}},
+            {"spheS9B2_aerogel_b3_tile_17_chi2": {"exists": true}},
+            {"spheS9B2_aerogel_b3_tile_18_chi2": {"exists": true}},
+            {"spheS9B2_aerogel_b3_tile_19_chi2": {"exists": true}},
+            {"spheS9B2_aerogel_b3_tile_20_chi2": {"exists": true}},
+            {"spheS9B2_aerogel_b3_tile_21_chi2": {"exists": true}}
+        ],
+        "MAPMT":[
+        ],
+        "TRACKS":[
         ]
     }
 }

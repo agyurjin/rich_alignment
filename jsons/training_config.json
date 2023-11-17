@@ -5,28 +5,44 @@
         "optical_file_name": "RichModOptical.dat",
         "aerogel_neg_part_file_name": "RichReco_FastMC.root_hist.root_hm_Aerogel.out",
         "aerogel_pos_part_file_name": "RichReco_FastMC.root_hist.root_hp_Aerogel.out",
-        "topology_neg_part_file_names":[],
-        "topology_pos_part_file_names":[]
+        "topology_neg_part_file_names":[
+                                        "RichReco_FastMC.root_hist.root_hm_dir.out",
+                                        "RichReco_FastMC.root_hist.root_hm_spheS9B1.out",
+                                        "RichReco_FastMC.root_hist.root_hm_spheS9B2.out",
+                                        "RichReco_FastMC.root_hist.root_hm_planA2L.out",
+                                        "RichReco_FastMC.root_hist.root_hm_planA2R.out"
+                                        ],
+        "topology_pos_part_file_names":[
+                                        "RichReco_FastMC.root_hist.root_hp_dir.out",
+                                        "RichReco_FastMC.root_hist.root_hp_spheS9B1.out",
+                                        "RichReco_FastMC.root_hist.root_hp_spheS9B2.out",
+                                        "RichReco_FastMC.root_hist.root_hp_planA2L.out",
+                                        "RichReco_FastMC.root_hist.root_hp_planA2R.out"
+                                        ],
+        "mapmt_neg_part_file_name": "richTrk_hm_module1_MAPMT.out",
+        "mapmt_pos_part_file_name": "richTrk_hp_module1_MAPMT.out",
+        "tracks_neg_part_file_name": "richTrk_hm_module1_Tracks.out",
+        "tracks_pos_part_file_name": "richTrk_hp_module1_Tracks.out"
     },
     "DATASETS":{
-        "pos_part_dataset_path": "/home/agyurjin/infn/infn_nn/data_17_05/positive",
-        "neg_part_dataset_path": "/home/agyurjin/infn/infn_nn/data_17_05/negative",
+        "pos_part_dataset_path": "/home/agyurjin/infn/alignment/exp1/data/pos",
+        "neg_part_dataset_path": "/home/agyurjin/infn/alignment/exp1/data/neg",
         "neg_pos_mixing": "free",
         "charge": "mixed"
     },
     "MODEL":{
         "type": "nn",
-        "hidden_layer_neurons": [20,100,20]
+        "hidden_layer_neurons": [50, 100, 100, 50]
         },
     "TRAINING":{
         "epochs": 100000,
         "optimizer":{
-            "lr": 1e-2,
+            "lr": 2e-3,
             "momentum": 0.9
             },
         "norm": true,
-        "split_ratio": 0.8,
-        "batch_size": 240,
+        "val_size": 0.2,
+        "batch_size": 32,
         "shuffle": true
         }
 }

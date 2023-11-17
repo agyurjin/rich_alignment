@@ -26,13 +26,13 @@ class VarianceIO(FileIO):
             layer = self.lines[int(line_struc[1])]
 
             for j, value in enumerate(line_struc[3:]):
-                if line_struc[2] == '0':
-                    kw = f'{layer}_{self.params[j]}'
-                else:
-                    kw = f'{layer}_tile_{int(line_struc[2])-1}_{self.params[j]}'
+                kw = f'{layer}_'
+                if int(line_struc[1]) < 300 and line_struc[2] != '0':
+                    kw += f'tile_{line_struc[2]}_'
+                elif int(line_struc[1]) > 300:
+                    kw += f'{line_struc[2]}_'
+                kw += f'{self.params[j]}'
                 file_data[kw] = float(value)
-
-            break
         return file_data
 
     def create_file(self, ):

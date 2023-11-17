@@ -11,7 +11,6 @@ from .data_handler import DataGenerator, DataReader
 from .models import RICHAlignmentModel
 from .minimizers import Minimizer
 from .plotter import Plotter
-#from .verifier import Verifier
 
 class RICHAlignment():
     '''
@@ -28,7 +27,6 @@ class RICHAlignment():
             None
         '''
         self.input_jsons_dir = Path(jsons_dir) if isinstance(jsons_dir, str) else jsons_dir
-#        self.verifier = Verifier()        
 
     def test_verif(self):
         with open(self.input_jsons_dir/'keywords.json', encoding='utf8') as file_handler:

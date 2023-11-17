@@ -2,6 +2,7 @@
 
 ## Tablle of content
  - [Introduction](#Introduction)
+ - [Input JSONs](#Input-jsons)
  - [Create geometry and optical files](#Create-geometry-and-optical-files)
  - [Run training](#Run-training)
  - [Find minima](#Find-minima)
@@ -16,7 +17,41 @@ There are 3 required input JSONs file to fully run the program. However, that do
 
 1. 'keywords.json'
 
-    Contains important information about the dataset 
+Template is in the repository jsons folder.
+
+### INPUT section
+
+Consists of two parts `GEOMETRY` and `OPTICAL`. Both contains list of objects with mirrors and aerogel layers information. 
+
+`GEOMETRY` object is a list of elements that contain information either from FastMC simulation or from real data alignment variance file. Structure of each item is:
+
+`json
+
+    [PARAMETER_RELATED_KEY]:{
+        "exist": Should the parameter used in the training.,
+        "grid": [MIN_VAL,MAX_VAL,POINT_NUM],
+        "corr": [CORRELATED_PARAMETER_KEY]
+        }
+`
+
+During data generation `grid` "MIN_VAL" and "MAX_VAL" range will be used.
+For example "aerogel_b2_x" and "frontal_mirror_b2_x" are correlated it means if `corr` element was set the correlated value in the data file will have the same value. 
+
+`OPTICAL` object is the
+ 
+### OUTPUT
+
+Consists of four parts `AEROGEL`, `TOPOLOGY`, `MAPMT` and `TRACKS`. 
+
+
+2. 'training_config.json'
+
+
+
+3. 'minima_config.json'
+
+Configuration file to search best alignment parameters.
+ 
 
 ## Create geometry and optical files
 

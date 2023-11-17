@@ -57,8 +57,11 @@ class DataParser:
             raise TypeError(f'File cannot be handeled!!! Check for possible solutions.\n \
 1. Geometry data file name should contain "Geometry" word and have ".dat" extension\n \
 2. Optical data file name should contain "Optical" word and have ".dat" extension\n \
-3. Aerogel output file name should contain "Aerogel" word and have ".out" extension\n \
-4. Any topology file name should contain {err_str} word and have ".out" extension')
+3. Variance data file name should contain "Variance" word and have ".dat" extension\n \
+4. Aerogel output file name should contain "Aerogel" word and have ".out" extension\n \
+5. MAPMT output file should contain "MAPMT" word and have ".out" extension\n \
+6. Tracks output file should contain "Tracks" word and have ".out" extension\n \
+7. Any topology file name should contain {err_str} word and have ".out" extension\n')
 
     def read_file(self, file_path: Path) -> dict:
         '''

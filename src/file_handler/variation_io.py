@@ -27,9 +27,9 @@ class VariationIO(FileIO):
 
             for j, value in enumerate(line_struc[3:]):
                 kw = f'{layer}_'
-                if int(line_struc[1]) < 300 and line_struc[2] != '0':
+                if int(line_struc[1]) > 200 and int(line_struc[1]) < 300 and line_struc[2] != '0':
                     kw += f'tile_{line_struc[2]}_'
-                elif int(line_struc[1]) > 300:
+                elif int(line_struc[1]) > 300 and int(line_struc[1])<400:
                     kw += f'{line_struc[2]}_'
                 kw += f'{self.params[j]}'
                 file_data[kw] = float(value)

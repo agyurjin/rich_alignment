@@ -18,7 +18,7 @@ There are 3 required input JSONs file to fully run the program. However, that do
 
 1. 'keywords.json'
 
-Template is in the repository jsons folder.
+Template is in the repository jsons folder. Detailed images of each keyword structure is in keywords folder
 
 ### INPUT section
 

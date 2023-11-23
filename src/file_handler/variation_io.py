@@ -1,15 +1,15 @@
 from pathlib import Path
 
 from .file_io import FileIO
-from .reader_structs import (VARIANCE_FILE_LINES, VARIANCE_PARAMS)
+from .reader_structs import (VARIATION_FILE_LINES, VARIATION_PARAMS)
 
-class VarianceIO(FileIO):
+class VariationIO(FileIO):
     '''
     '''
     def __init__(self, name=None):
         super().__init__(name)
-        self.params = VARIANCE_PARAMS
-        self.lines = VARIANCE_FILE_LINES
+        self.params = VARIATION_PARAMS
+        self.lines = VARIATION_FILE_LINES
     
 
     def read_file(self, input_path: Path) -> dict:

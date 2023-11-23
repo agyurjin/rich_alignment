@@ -37,7 +37,7 @@ GEO_FILE_ANGLE_PARAMS = {
     2: 'theta_z'
 }
 
-VARIANCE_FILE_LINES = {
+VARIATION_FILE_LINES = {
     0: 'mapmt',
     201: 'aerogel_0',
     202: 'aerobel_1',
@@ -48,7 +48,7 @@ VARIANCE_FILE_LINES = {
     401: 'full'
 }
 
-VARIANCE_PARAMS = {
+VARIATION_PARAMS = {
     0: 'x',
     1: 'y',
     2: 'z',
@@ -174,9 +174,10 @@ TOP_FILE_NAMES = [
 ]
 
 TRACKS_PARAMS = {
-    0: 'mean',
-    1: 'mean_err',
-    2: 'std',
-    3: 'std_err',
-    4: 'chi2' 
+    0: 'nevents',   
+    1: 'mean',
+    2: 'mean_err',
+    3: 'std',
+    4: 'std_err',
+    5: 'chi2' 
 }

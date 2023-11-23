@@ -8,7 +8,7 @@ from .optical_io import OpticalIO
 from .aerogel_io import AerogelIO
 from .topology_io import TopologyIO
 from .mapmt_io import MapmtIO
-from .variance_io import VarianceIO
+from .variation_io import VariationIO
 from .tracks_io import TracksIO
 
 from .reader_structs import TOP_FILE_NAMES
@@ -37,8 +37,8 @@ class DataParser:
         file_suffix = file_path.suffix
         if 'Geometry' in file_name and file_suffix == '.dat':
             self.strategy = GeometryIO()
-        elif 'Variance' in  file_name and file_suffix == '.dat':
-            self.strategy = VarianceIO()
+        elif 'Variation' in  file_name and file_suffix == '.dat':
+            self.strategy = VariationIO()
         elif 'Optical' in file_name and file_suffix == '.dat':
             self.strategy = OpticalIO()
         elif 'Aerogel' in file_name and file_suffix == '.out':
@@ -57,7 +57,7 @@ class DataParser:
             raise TypeError(f'File cannot be handeled!!! Check for possible solutions.\n \
 1. Geometry data file name should contain "Geometry" word and have ".dat" extension\n \
 2. Optical data file name should contain "Optical" word and have ".dat" extension\n \
-3. Variance data file name should contain "Variance" word and have ".dat" extension\n \
+3. Variation data file name should contain "Variation" word and have ".dat" extension\n \
 4. Aerogel output file name should contain "Aerogel" word and have ".out" extension\n \
 5. MAPMT output file should contain "MAPMT" word and have ".out" extension\n \
 6. Tracks output file should contain "Tracks" word and have ".out" extension\n \

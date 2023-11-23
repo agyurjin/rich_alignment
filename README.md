@@ -9,7 +9,8 @@
 
 ## Introduction
 
-The developed approch is to use Fast Monte Carlo (FastMC) RICH simulation output and find best RICH alignment parameters that describes reconstructed tracks. The code provides functions to create geometry and optical files combinations to do reconstruction, train neural network model with FastMC reconstruction output and find minima, which is best set of parameters that produce best results for the reconstructed chi-square topolpgies. 
+The developed approch is to use Fast Monte Carlo (FastMC) RICH simulation or CLAS12 RICH reconstructed variation outputs and find best RICH alignment parameters that describes reconstructed tracks. The code provides functions to create geometry and optical files combinations to do reconstruction, train neural network model and find best RICH alignment parameters. 
+
 
 ## Input JSONs
 
@@ -23,10 +24,13 @@ Template is in the repository jsons folder.
 
 Consists of two parts `GEOMETRY` and `OPTICAL`. Both contains list of objects with mirrors and aerogel layers information. 
 
-`GEOMETRY` object is a list of elements that contain information either from FastMC simulation or from real data alignment variance file. Structure of each item is:
+`GEOMETRY` contains information either from FastMC simulation or CLAS12 RICH variation reconstructed data alignment geometry files. Structure of each item is:
+
+`OPTICAL` contaions information from FastMC simulation.
+
+Each element has following structure.
 
 `json
-
     [PARAMETER_RELATED_KEY]:{
         "exist": Should the parameter used in the training.,
         "grid": [MIN_VAL,MAX_VAL,POINT_NUM],
@@ -37,21 +41,86 @@ Consists of two parts `GEOMETRY` and `OPTICAL`. Both contains list of objects wi
 During data generation `grid` "MIN_VAL" and "MAX_VAL" range will be used.
 For example "aerogel_b2_x" and "frontal_mirror_b2_x" are correlated it means if `corr` element was set the correlated value in the data file will have the same value. 
 
-`OPTICAL` object is the
  
 ### OUTPUT
 
-Consists of four parts `AEROGEL`, `TOPOLOGY`, `MAPMT` and `TRACKS`. 
+Consists of four parts `AEROGEL`, `TOPOLOGY`, `MAPMT` and `TRACKS`.
+
+`AEROGEL` contains information from FastMC simulation reconstruction data.
+
+`TOPOLOGY` contatins information from FastMC simulation reconstruction data.
+
+`MAPMT` contains information either from FastMC simulation or CLAS12 RICH reconstruction data.
+
+`TRACKS` contains information either from FastMC simulation or CLAS12 RICH reconstruction data.
 
 
-2. 'training_config.json'
+`json
+    [PARAMETER_RELATED_KEY]:{
+        "exist": Should the parameter used in the training.,
+        }
+`
 
-
-
-3. 'minima_config.json'
+2. 'minima_config.json'
 
 Configuration file to search best alignment parameters.
- 
+
+### MINIMA
+
+`type`: Either "genetic" or "sgd"
+
+`momentum`: Parameter for "sgd" ignore for "genetic" algorithm
+
+`iters`: Number of iterations
+
+`precisions`: Precision for each type physical values.
+
+`number_of_samples`: Starting number of points.
+    
+
+3. 'training_config.json'
+
+Configuration file for model training.
+
+### META
+
+File names to look for keywords in the dataset.
+
+**Topology file namses area list as there are few possible topologies. Important to have all keywords related topology file names.**
+
+### DATASETS
+
+Path to positive and negative datasets. In each folder should be folders, where folder represents data point.
+
+`neg_pos_mixing`: Either "average", "free" or "charge". 
+"average" calculats output values as average of negative and positive values.
+"free" uses negative and positive values as independant dimension.
+"charge" creates data points for both negative and positive and adds charge information as "dummy" output dimension.
+
+`charge`: Either "positive", "negative", "mixed". 
+"positive" uses only positive data.
+"negative" uses only negative data.
+"mixed" used both data.
+
+**IMPORTANT all possible combinations are not possible for those 2 parameters.**
+
+
+### MODEL
+
+Training model
+
+`type`: "nn" neural network is only available.
+`hidden_layer_neuroons`: Neural network structure
+
+### TRAINING
+
+`epochs`: Number of epochs
+`optimizer`: Optimizer parameters
+`norm`: Dataset normalization
+`val_size`: Dataset split validation size
+`batch_size`: Batch size for training
+`shuffle`: Shuffle data before split
+
 
 ## Create geometry and optical files
 
@@ -71,8 +140,18 @@ rich.create_data(output_path, num_of_points, geo_path, opt_path)
 ```
 
 
-## Run training
+## Run training and find best alignment parameters
 
-## Find minima
+`run_sample.py` is code script to run training and find best alignment parameters
+
+!!! IMPORTANT !!! change `trained_model_path` in the script.
+
+`python3 run_sample.py` will run training and find best alignment parameters.
+
+If the model is already trained it is possible to find only alignment parameters.
+
+Comment line 8 and model will use trained model to find best alignment parameters.
+
+
 
 

@@ -38,14 +38,14 @@ GEO_FILE_ANGLE_PARAMS = {
 }
 
 VARIATION_FILE_LINES = {
-    0: 'mapmt',
+    0: 'total_rich',
     201: 'aerogel_0',
     202: 'aerogel_1',
     203: 'aerogel_2_1',
     204: 'aerogel_2_2',
     301: 'plannar_mirror',
     302: 'shperical_mirror',
-    401: 'total_rich'
+    401: 'mapmt'
 }
 
 VARIATION_PARAMS = {

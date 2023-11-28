@@ -1,0 +1,63 @@
+AerogelB1 surface: shifts (mm), thetax,thetay,thetaz (rad)
+0.0 0.0 0.0
+0.0 0.0 0.0
+AerogelB2 surface: shifts (mm), thetax,thetay,thetaz (rad)
+0.0 0.0 0.0
+0.0 0.0 0
+AerogelB3 surface: shifts (mm), thetax,thetay,thetaz (rad)
+0.0 0. 0.0
+0.00 0.0 0.0
+FrontalMirrorB1 surface: shifts (mm), thetax,thetay,thetaz (rad)
+0.0 0.0 0.0
+0.0 0.0 0.0
+FrontalMirrorB2 surface: shifts (mm), thetax,thetay,thetaz (rad)
+0. 0. 0.0
+0.0 0.0 0
+PlanarMirrorA2L surface: shifts (mm), thetax,thetay,thetaz (rad)
+0. 0. 0.0
+0.0 0.0 0.0	
+PlanarMirrorA2R surface: shifts (mm), thetax,thetay,thetaz (rad)
+0. 0. 0.
+0.00 0.0 0.0
+PlanarMirrorA3 surface: shifts (mm), thetax,thetay,thetaz (rad)
+0. 0. 0.
+0. 0. 0.0
+PlanarMirrorA1L surface: shifts (mm), thetax,thetay,thetaz (rad)
+0. 0. 0.
+0.00 0.00 0.0	
+PlanarMirrorA1R surface: shifts (mm), thetax,thetay,thetaz (rad)
+0.0 0.0 0.0
+0.0 0.0 0.0
+SphericalMirror S1 surface: shifts (mm), thetax,thetay,thetaz (rad)
+0. 0. 0.
+0.0 0.0 0.0
+SphericalMirror S2 surface: shifts (mm), thetax,thetay,thetaz (rad)
+0.0 0.0 0.0
+0.0 0.0 0.0
+SphericalMirror S3 surface: shifts (mm), thetax,thetay,thetaz (rad)
+0.0 0.0 0.0
+0.0 0.0 0.0
+SphericalMirror S4 surface: shifts (mm), thetax,thetay,thetaz (rad)
+0. 0. 0.
+0.0 0.0 0.0
+SphericalMirror S2c surface: shifts (mm), thetax,thetay,thetaz (rad)
+0.0 0.0 0.0
+0.0 0.0 0.0
+SphericalMirror S3c surface: shifts (mm), thetax,thetay,thetaz (rad)
+0. 0. 0.
+0.0 0.0 0.0
+SphericalMirror S4c surface: shifts (mm), thetax,thetay,thetaz (rad)
+0.0 0.0 0.0
+0.0 0.0 0.0
+SphericalMirror S5 surface: shifts (mm), thetax,thetay,thetaz (rad)
+0.0 0.0 0.0
+0.0 0.0 0.0
+SphericalMirror S5csurface: shifts (mm), thetax,thetay,thetaz (rad)
+0.0 0.0 0.0
+0.0 0.0 0.0
+SphericalMirror S6 surface: shifts (mm), thetax,thetay,thetaz (rad)
+0. 0. 0.
+0.0 0.0 0.0
+MAPMT surface: shifts (mm), thetax,thetay,thetaz (rad)
+0 0.0 0 
+0.0 0.0 0.0

@@ -111,17 +111,17 @@ class Plotter:
         pos_error = self.pos_error[comb]
         neg_error = self.neg_error[comb]
 
-        x =  np.array(min_point[0], dtype=np.float)
-        y = np.array(min_point[1], dtype=np.float)
-        ex = np.array(min_error[0], dtype=np.float)
-        ey = np.array(min_error[1], dtype=np.float)
+        x =  np.array(min_point[0], dtype=np.float32)
+        y = np.array(min_point[1], dtype=np.float32)
+        ex = np.array(min_error[0], dtype=np.float32)
+        ey = np.array(min_error[1], dtype=np.float32)
         g1 = ROOT.TGraphErrors(1, x, y, ex, ey)
         g1.SetMarkerColor(2)
 
-        exl = np.array(neg_error[0], dtype=np.float)
-        exh = np.array(pos_error[0], dtype=np.float)
-        eyl = np.array(neg_error[1], dtype=np.float)
-        eyh = np.array(pos_error[1], dtype=np.float)
+        exl = np.array(neg_error[0], dtype=np.float32)
+        exh = np.array(pos_error[0], dtype=np.float32)
+        eyl = np.array(neg_error[1], dtype=np.float32)
+        eyh = np.array(pos_error[1], dtype=np.float32)
         g2 = ROOT.TGraphAsymmErrors(1, x, y, exl, exh, eyl, eyh)
         g2.SetMarkerColor(6)
         g2.SetMarkerStyle(21)
